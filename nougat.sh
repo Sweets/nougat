@@ -18,7 +18,7 @@ saveourship(){
     echo " Be sure to configure your screenshot directory. This can be done by exporting $NOUGAT_SCREENSHOT_DIRECTORY."
     echo " Place to export statement in your shell's profile. Also, do not leave a trailing slash (e.g. use /directory rather than /directory/)"
     echo " Example:"
-    echo "  export NOUGAT_SCREENSHOT_DIRECTORY=/home/username/Screenshots"
+    echo "  export NOUGAT_SCREENSHOT_DIRECTORY=$HOME/Screenshots"
 
 }
 
