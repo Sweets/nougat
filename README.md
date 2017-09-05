@@ -25,3 +25,8 @@ Subdirectories are also created based on the date. For example, since today is S
 `-c` - Copies the output to the clipboard. This is not yet implemented.
 
 `-h` - Shows the nougat help dialog.
+
+# Dependencies
+
+`scrot` - (duh)
+`xclip` - Copying images to the clipboard (`-c`)
