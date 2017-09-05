@@ -68,7 +68,7 @@ scrotpls(){
 
     mv /tmp/nougat_temp.png $dir/$name
 
-    linkname="$year-$month-day.$name"
+    linkname="$year-$month-$day.$name"
 
     ln -s $dir/$name $NOUGAT_SCREENSHOT_DIRECTORY/all/$linkname
 
