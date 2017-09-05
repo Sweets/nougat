@@ -52,7 +52,7 @@ scrotpls(){
     echo "scrot $scrotopts" | /bin/bash
 
     if [[ "$temp" == "true" ]]
-    then # Stops nougat from continuning and moving a non-existant file
+    then # Stops nougat from continuing and moving a non-existant file
         exit 0
     fi
 
