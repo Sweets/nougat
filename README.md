@@ -7,7 +7,7 @@ Whenever you take a screenshot using nougat, it will organize the screenshot int
 To specific the NOUGAT_SCREENSHOT_DIRECTORY variable, add the following line to either your shell's rc file, or the profile of your shell.
 
 ```
-export NOUGAT_SCREENSHOT_DIRECTORY="/home/username/screenshots"
+export NOUGAT_SCREENSHOT_DIRECTORY="$HOME/screenshots"
 ```
 
 Once nougat is run, it will create any subdirectories that it needs. For example, the first time it is run, it will create ./all. This is where all symlinks are kept. The link names differ slightly from the file names in that it specifies the whole date and time, rather than just time.
