@@ -100,7 +100,7 @@ do
             fullscreen=true
             ;;
         c)
-            copy=true
+            copytoclipboard=true
             ;;
     esac
 done
