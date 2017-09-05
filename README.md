@@ -17,7 +17,11 @@ Subdirectories are also created based on the date. For example, since today is S
 # Command-line options
 
 `-f` - Takes a fullscreen screenshot. By default, nougat will use the select-area option provided by scrot.
+
 `-t` - Places screenshot in `/tmp/` rather than the `$NOUGAT_SCREENSHOT_DIRECTORY`.
+
 `-s` - Does not output the file's path. By default, nougat outputs the files path to aid implementation of file uploaders.
+
 `-c` - Copies the output to the clipboard. This is not yet implemented.
+
 `-h` - Shows the nougat help dialog.
