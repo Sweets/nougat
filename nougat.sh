@@ -7,18 +7,22 @@
 
 saveourship(){
 
-    echo "Nougat - scrot wrapper created to help organize screenshots"
-    echo "Options:"
-    echo " -h - Saves our ship."
-    echo " -s - Silent. By default, nougat will output the path to the file to STDOUT. This is to make it easier to implement into other file uploaders."
-    echo " -t - Places screenshot into /tmp (useful if you only need a quick screenshot to send to a friend)"
-    echo " -f - Takes a full screen screenshot (default is select area)"
-    echo " -c - Puts the screenshot into your clipboard"
-    echo "Important:"
-    echo " Be sure to configure your screenshot directory. This can be done by exporting $NOUGAT_SCREENSHOT_DIRECTORY."
-    echo " Place to export statement in your shell's profile. Also, do not leave a trailing slash (e.g. use /directory rather than /directory/)"
-    echo " Example:"
-    echo "  export NOUGAT_SCREENSHOT_DIRECTORY=$HOME/Screenshots"
+   echo "Nougat - scrot wrapper created to help organize screenshots"
+   echo "Options:"
+   echo " -h - Saves our ship."
+   echo " -s - Silent. By default, nougat will output the path to the file to STDOUT."
+   echo "              This is to make it easier to implement into other file uploaders."
+   echo " -t - Places screenshot into /tmp"
+   echo "      (useful if you only need a quick screenshot to send to a friend)"
+   echo " -f - Takes a full screen screenshot (default is select area)"
+   echo " -c - Puts the screenshot into your clipboard"
+   echo "Important:"
+   echo " Be sure to configure your screenshot directory."
+   echo " This can be done by exporting \$NOUGAT_SCREENSHOT_DIRECTORY."
+   echo " Place the export statement in your shell's profile."
+   echo " Do not leave a trailing slash (e.g. use /directory rather than /directory/)"
+   echo " Example:"
+   echo "  export NOUGAT_SCREENSHOT_DIRECTORY=$HOME/Screenshots"
 
 }
 
