@@ -37,7 +37,7 @@ scrotpls(){
 
     if [[ "$temp" == "true" ]]
     then
-        scrotopts='"%F.%H_%M_%S.png" -e '"'"'mv $f /tmp; echo /tmp/$f'"'"
+        scrotopts='"%F.%H_%M_%S.png" -e '"'"'mv $f /tmp; xclip -selection clipboard -t image/png /tmp/$f; echo /tmp/$f'"'"
     else
         scrotopts='"nougat_temp.png" -e '"'"'mv $f /tmp'"'"
     fi
@@ -75,6 +75,11 @@ scrotpls(){
     linkname="$year-$month-$day.$name"
 
     ln -s $dir/$name $NOUGAT_SCREENSHOT_DIRECTORY/all/$linkname
+
+    if [[ "$copytoclipboard" == "true" ]]
+    then
+        xclip -selection clipboard -t image/png $dir/$name
+    fi
 
     if [[ "$silent" == "false" ]]
     then
