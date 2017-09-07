@@ -31,27 +31,41 @@ fullscreen=false
 silent=false
 copytoclipboard=false
 
-scrotopts='"nougat_temp.png" -e '"'"'mv $f /tmp'"'"
-
 scrotpls(){
+
+    scrotopts=""
+
+    suffix=""
+
+    if [[ "$fullscreen" == "true" ]]
+    then
+        suffix="_full"
+    else
+        scrotopts="-s "
+    fi
 
     if [[ "$temp" == "true" ]]
     then
-        scrotopts='"%F.%H_%M_%S.png" -e '"'"'mv $f /tmp; xclip -selection clipboard -t image/png /tmp/$f; echo /tmp/$f'"'"
+        scrotcmdtemp='mv $f /tmp'
+
+        if [[ "$copytoclipboard" == "true" ]]
+        then
+            scrotcmdtemp="$scrotcmdtemp; "'xclip -selection clipboard -t image/png /tmp/$f'
+        fi
+
+        if [[ "$silent" == "false" ]]
+        then
+            scrotcmdtemp="$scrotcmdtemp; echo /tmp/"'$f'
+        fi
+
+        scrotopts="$scrotopts"'"%F.%H_%M_%S'"$suffix"'.png" -e '"'""$scrotcmdtemp""'"
     else
-        scrotopts='"nougat_temp.png" -e '"'"'mv $f /tmp'"'"
-    fi
-
-    if [[ "$fullscreen" == "false" ]]
-    then
-
-        scrotopts="-s $scrotopts"
-
+        scrotopts="$scrotopts"'"nougat_temp.png" -e '"'"'mv $f /tmp'"'"
     fi
 
     echo "scrot $scrotopts" | /bin/bash
 
-    if [[ "$temp" == "true" ]]
+    if [[ ! -f "/tmp/nougat_temp.png" ]]
     then # Stops nougat from continuing and moving a non-existant file
         exit 0
     fi
@@ -63,12 +77,7 @@ scrotpls(){
     dir="$NOUGAT_SCREENSHOT_DIRECTORY/$year/$month/$day"
     mkdir -p $dir
 
-    if [[ "$fullscreen" == "true" ]]
-    then
-        name=$(date +"%H_%M_%S_full.png")
-    else
-        name=$(date +"%H_%M_%S.png")
-    fi
+    name=$(date +"%H_%M_%S$suffix.png")
 
     mv /tmp/nougat_temp.png $dir/$name
 
