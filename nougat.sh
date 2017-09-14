@@ -7,16 +7,16 @@
 
 saveourship(){
 
-   echo "Nougat - scrot wrapper created to help organize screenshots"
-   echo "Options:"
-   echo " -h - Saves our ship."
+   echo -e "Nougat - scrot wrapper created to help organize screenshots\n"
+   echo -e " -h - Saves our ship.\n"
    echo " -s - Silent. By default, nougat will output the path to the file to STDOUT."
-   echo "              This is to make it easier to implement into other file uploaders."
+   echo -e "              This is to make it easier to implement into other file uploaders.\n"
    echo " -t - Places screenshot into /tmp"
-   echo "      (useful if you only need a quick screenshot to send to a friend)"
-   echo " -f - Takes a full screen screenshot (default is select area)"
-   echo " -c - Puts the screenshot into your clipboard"
-   echo "Important:"
+   echo -e "      (useful if you only need a quick screenshot to send to a friend)\n"
+   echo -e " -f - Takes a full screen screenshot (default is select area)\n"
+   echo -e " -c - Puts the screenshot into your clipboard\n"
+   echo " -p - Purges screenshot directory. Unless you made a backup, you will not be"
+   echo -e "              able to recover your screenshots.\n"
    echo " Be sure to configure your screenshot directory."
    echo " This can be done by exporting \$NOUGAT_SCREENSHOT_DIRECTORY."
    echo " Place the export statement in your shell's profile."
@@ -58,12 +58,12 @@ scrotpls(){
             scrotcmdtemp="$scrotcmdtemp; echo /tmp/"'$f'
         fi
 
-        scrotopts="$scrotopts"'"%F.%H_%M_%S'"$suffix"'.png" -e '"'""$scrotcmdtemp""'"
+        scrotopts="$scrotopts"'"%F.%H:%M:%S'"$suffix"'.png" -e '"'""$scrotcmdtemp""'"
     else
         scrotopts="$scrotopts"'"nougat_temp.png" -e '"'"'mv $f /tmp'"'"
     fi
 
-    echo "scrot $scrotopts" | /bin/bash
+    /bin/bash -c "scrot $scrotopts"
 
     if [[ ! -f "/tmp/nougat_temp.png" ]]
     then # Stops nougat from continuing and moving a non-existant file
@@ -77,7 +77,7 @@ scrotpls(){
     dir="$NOUGAT_SCREENSHOT_DIRECTORY/$year/$month/$day"
     mkdir -p $dir
 
-    name=$(date +"%H_%M_%S$suffix.png")
+    name=$(date +"%H:%M:%S$suffix.png")
 
     mv /tmp/nougat_temp.png $dir/$name
 
@@ -97,7 +97,12 @@ scrotpls(){
 
 }
 
-while getopts "hstfc" opt
+purge() {
+        rm -r $NOUGAT_SCREENSHOT_DIRECTORY/*
+        mkdir $NOUGAT_SCREENSHOT_DIRECTORY/all
+}
+
+while getopts "hstfcp" opt
 do
     case $opt in
         h)
@@ -115,6 +120,10 @@ do
             ;;
         c)
             copytoclipboard=true
+            ;;
+        p)
+            purge
+            exit 0
             ;;
     esac
 done
