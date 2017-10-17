@@ -2,7 +2,7 @@
 #!/bin/bash
 
 # Nougat
-# Scrot wrapper
+# maim/scrot wrapper
 # Helps organize screenshots
 
 saveourship(){
@@ -153,6 +153,20 @@ runbackend(){
         else
 
             echo "No supported backend found"
+            exit 1
+
+        fi
+
+    fi
+
+    if [[ "$copytoclipboard" == "true" ]]
+    then
+
+        if [[ ! -f "/bin/xclip" ]]
+        then
+
+            echo "xclip is not installed"
+            echo "Install xclip for -c support"
             exit 1
 
         fi
