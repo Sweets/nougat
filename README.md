@@ -1,7 +1,7 @@
 # nougat
 Screenshot wrapper for scrot
 
-# HERES HOW IT DO
+# How it works
 Whenever you take a screenshot using nougat, it will organize the screenshot into a subdirectory of the directory specified in the NOUGAT_SCREENSHOT_DIRECTORY variable. This is done to organize screenshots in a humane manner. Then a symbolic link is created to the screenshot in the "all" subdirectory. This helps find screenshots quickly rather than having to go through all subdirectories.
 
 To specify the NOUGAT_SCREENSHOT_DIRECTORY variable, add the following line to either your shell's rc file or the profile of your shell.
@@ -22,11 +22,17 @@ Subdirectories are also created based on the date. For example, since today is S
 
 `-s` - Does not output the file's path. By default, nougat outputs the files path to aid implementation of file uploaders.
 
+`-S` - Selects images from the `$NOUGAT_SCREENSHOT_DIRECTORY`. To select images, use the following string structure: `YEAR-MONTH-DAY+HOUR:MINUTE:SECOND`. You can use an asterisk (`*`) as a wildcard.
+
+`-b` - Specifies the backend for nougat to use. Currently only `scrot` and `maim`. nougat will auto-detect which of these backends exist on the system. If both exist, nougat will prefer maim to scrot.
+
 `-c` - Copies the output to the clipboard. This is not yet implemented.
+
+`-p` - Cleans `$NOUGAT_SCREENSHOT_DIRECTORY/all` of any symbolic links that lead to nowhere.
 
 `-h` - Shows the nougat help dialog.
 
 # Dependencies
 
-`scrot` - (duh)
+`scrot` or `maim` - One or the other. nougat will use `maim` if both are on the system.
 `xclip` - Copying images to the clipboard (`-c`)
