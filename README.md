@@ -35,4 +35,5 @@ Subdirectories are also created based on the date. For example, since today is S
 # Dependencies
 
 `scrot` or `maim` - One or the other. nougat will use `maim` if both are on the system.
+
 `xclip` - Copying images to the clipboard (`-c`)
