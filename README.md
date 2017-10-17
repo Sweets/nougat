@@ -1,5 +1,5 @@
 # nougat
-Screenshot wrapper for scrot
+Screenshot wrapper for scrot and maim
 
 # How it works
 Whenever you take a screenshot using nougat, it will organize the screenshot into a subdirectory of the directory specified in the NOUGAT_SCREENSHOT_DIRECTORY variable. This is done to organize screenshots in a humane manner. Then a symbolic link is created to the screenshot in the "all" subdirectory. This helps find screenshots quickly rather than having to go through all subdirectories.
