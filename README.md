@@ -24,7 +24,7 @@ Subdirectories are also created based on the date. For example, since today is S
 
 `-S` - Selects images from the `$NOUGAT_SCREENSHOT_DIRECTORY`. To select images, use the following string structure: `YEAR-MONTH-DAY+HOUR:MINUTE:SECOND`. You can use an asterisk (`*`) as a wildcard.
 
-`-b` - Specifies the backend for nougat to use. Currently only `scrot` and `maim`. nougat will auto-detect which of these backends exist on the system. If both exist, nougat will prefer maim to scrot.
+`-b` - Specifies the backend for nougat to use. Currently only `scrot` and `maim`. nougat will auto-detect which of these backends exist on the system if the backend is not specified, if both exist, nougat will prefer maim to scrot.
 
 `-c` - Copies the output to the clipboard. This is not yet implemented.
 
