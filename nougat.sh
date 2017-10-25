@@ -7,43 +7,44 @@
 
 saveourship(){
 
-   echo -e "Nougat - scrot wrapper created to help organize screenshots\n"
-   echo -e " -h - Saves our ship.\n"
-   echo " -s - Silent. By default, nougat will output the path to the file to STDOUT."
-   echo -e "              This is to make it easier to implement into other file uploaders.\n"
-   echo " -t - Places screenshot into /tmp"
-   echo -e "      (useful if you only need a quick screenshot to send to a friend)\n"
-   echo -e " -f - Takes a full screen screenshot (default is select area)\n"
-   echo -e " -c - Puts the screenshot into your clipboard\n"
-   echo " -b - Select backend to use"
-   echo -e "              Supported backends are \`maim' and \`scrot'."
-   echo -e "              nougat will detect available backends if -b"
-   echo -e "              is not specified. nougat prefers maim to scrot.\n"
-   echo " -p - Cleans the \`all' subdirectory of $NOUGAT_SCREENSHOT_DIRECTORY."
-   echo "              Particularly useful as it cleans any links that no"
-   echo -e "              longer point to a screenshot (i.e. deleted screeenshot).\n"
-   echo " -S - Selects all images matching the argument."
-   echo "              Image matching is done with the following string"
-   echo "              structure: \`YEAR-MONTH-DAY+HOUR:MINUTE:SECOND'."
-   echo "              The month is the number, unlike in the filenames."
-   echo "              Using an asterisk specifies a wildcard."
-   echo "              For example:"
-   echo "                            # To select all images ..."
-   echo -e "                            $ nougat -S \"*-*-*+*:*:*\"\n"
-   echo "                            # Select all images on October 16th of any year ..."
-   echo -e "                            $ nougat -S \"*-10-16+*:*:*\"\n"
-   echo "                            # Select all images taken at 01:22 ..."
-   echo -e "                            $ nougat -S \"*-*-*+01:22:*\"\n"
-   echo "              Selecting images is particularly useful as you can"
-   echo "              remove multiple images at a time, or upload recent"
-   echo "              screenshots all at once with something like ..."
-   echo -e "                            $ image-uploader \$(nougat -S \"*-*-*+22:34:*\")\n"
-   echo " Be sure to configure your screenshot directory."
-   echo " This can be done by exporting \$NOUGAT_SCREENSHOT_DIRECTORY."
-   echo " Place the export statement in your shell's profile."
-   echo " Do not leave a trailing slash (e.g. use /directory rather than /directory/)"
-   echo " Example:"
-   echo "  export NOUGAT_SCREENSHOT_DIRECTORY=$HOME/Screenshots"
+   echo -e  "Nougat - scrot wrapper created to help organize screenshots\n"
+   echo -e  " -h - Saves our ship.\n"
+   echo     " -s - Silent. By default, nougat will output the path to the file to STDOUT."
+   echo -e  "              This is to make it easier to implement into other file uploaders.\n"
+   echo     " -t - Places screenshot into /tmp"
+   echo -e  "      (useful if you only need a quick screenshot to send to a friend)\n"
+   echo -e  " -f - Takes a full screen screenshot (default is select area)\n"
+   echo -e  " -c - Puts the screenshot into your clipboard\n"
+   echo -e  " -u - Hide cursor. (maim backend ONLY, see -b)"
+   echo     " -b - Select backend to use"
+   echo -e  "              Supported backends are \`maim' and \`scrot'."
+   echo -e  "              nougat will detect available backends if -b"
+   echo -e  "              is not specified. nougat prefers maim to scrot.\n"
+   echo     " -p - Cleans the \`all' subdirectory of $NOUGAT_SCREENSHOT_DIRECTORY."
+   echo     "              Particularly useful as it cleans any links that no"
+   echo -e  "              longer point to a screenshot (i.e. deleted screeenshot).\n"
+   echo     " -S - Selects all images matching the argument."
+   echo     "              Image matching is done with the following string"
+   echo     "              structure: \`YEAR-MONTH-DAY+HOUR:MINUTE:SECOND'."
+   echo     "              The month is the number, unlike in the filenames."
+   echo     "              Using an asterisk specifies a wildcard."
+   echo     "              For example:"
+   echo     "                            # To select all images ..."
+   echo -e  "                            $ nougat -S \"*-*-*+*:*:*\"\n"
+   echo     "                            # Select all images on October 16th of any year ..."
+   echo -e  "                            $ nougat -S \"*-10-16+*:*:*\"\n"
+   echo     "                            # Select all images taken at 01:22 ..."
+   echo -e  "                            $ nougat -S \"*-*-*+01:22:*\"\n"
+   echo     "              Selecting images is particularly useful as you can"
+   echo     "              remove multiple images at a time, or upload recent"
+   echo     "              screenshots all at once with something like ..."
+   echo -e  "                            $ image-uploader \$(nougat -S \"*-*-*+22:34:*\")\n"
+   echo     " Be sure to configure your screenshot directory."
+   echo     " This can be done by exporting \$NOUGAT_SCREENSHOT_DIRECTORY."
+   echo     " Place the export statement in your shell's profile."
+   echo     " Do not leave a trailing slash (e.g. use /directory rather than /directory/)"
+   echo     " Example:"
+   echo     "  export NOUGAT_SCREENSHOT_DIRECTORY=$HOME/Screenshots"
 
 }
 
@@ -52,6 +53,7 @@ fullscreen=false
 silent=false
 copytoclipboard=false
 backend=""
+cursor=true
 
 suffix="_full"
 supportedbackends=("maim" "scrot")
@@ -64,6 +66,10 @@ maimbackend(){
     then
         suffix=""
         maimopts="-s "
+    fi
+    if [[ "$cursor" == "false" ]]
+    then
+        maimopts="${maimopts}-u "
     fi
 
     filename=$(date +"%F.%H:%M:%S$suffix.png")
@@ -385,7 +391,7 @@ clean() {
 
 }
 
-while getopts "hstfcp b:S:" opt
+while getopts "hstfcpu b:S:" opt
 do
     case $opt in
         h)
@@ -414,6 +420,9 @@ do
         p)
             clean
             exit 0
+            ;;
+        u)
+            cursor=false
             ;;
     esac
 done
