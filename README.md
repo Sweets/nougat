@@ -26,6 +26,8 @@ Subdirectories are also created based on the date. For example, since today is S
 
 `-b` - Specifies the backend for nougat to use. Currently only `scrot` and `maim`. nougat will auto-detect which of these backends exist on the system if the backend is not specified, if both exist, nougat will prefer maim to scrot.
 
+`-u` - Hides the cursor in screenshots. Currently only works with the maim backend.
+
 `-c` - Copies the output to the clipboard. This is not yet implemented.
 
 `-p` - Cleans `$NOUGAT_SCREENSHOT_DIRECTORY/all` of any symbolic links that lead to nowhere.
