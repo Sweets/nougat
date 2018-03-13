@@ -210,6 +210,7 @@ screenshotpls(){
 
     else
         path="$specifieddirectory"
+        name="${year}-${month}-${day}.${name}"
     fi
 
     if [[ "$silent" == "false" ]]
