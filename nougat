@@ -53,6 +53,8 @@ fullscreen=false
 silent=false
 copytoclipboard=false
 backend=""
+specifieddirectory=""
+specifiedpath=""
 cursor=true
 
 supportedbackends=("maim" "scrot" "imagemagick")
@@ -198,15 +200,24 @@ screenshotpls(){
 
     fi
 
-    mkdir -p $path
+    if [[ "$specifieddirectory" == "" ]]
+    then
 
-    linkname="${year}-${month}-${day}.${name}"
-    ln -s $path/$name $NOUGAT_SCREENSHOT_DIRECTORY/all/$linkname
+        mkdir -p $path
+
+        linkname="${year}-${month}-${day}.${name}"
+        ln -s $path/$name $NOUGAT_SCREENSHOT_DIRECTORY/all/$linkname
+
+    else
+        path="$specifieddirectory"
+    fi
 
     if [[ "$silent" == "false" ]]
     then
         echo "$path/$name"
     fi
+
+    mv /tmp/nougat_temp.png $path/$name
 
 }
 
@@ -428,6 +439,22 @@ else
     if [[ ! -d "$NOUGAT_SCREENSHOT_DIRECTORY/all" ]]
     then
         mkdir "$NOUGAT_SCREENSHOT_DIRECTORY/all"
+    fi
+
+    lastarg=""
+
+    for i in "$@"
+    do
+       lastarg="$i"
+    done
+
+    if [[ -d "$lastarg" ]]
+    then
+        specifieddirectory="$lastarg"
+    elif [[ -f "$lastarg" ]]
+    then
+        specifiedpath="$lastarg"
+        #TODO: implement for names as well
     fi
 
     cleanup
