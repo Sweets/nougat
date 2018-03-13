@@ -141,26 +141,20 @@ runbackend(){
     if [[ "$backend" == "" ]]
     then
 
-        if [[ -f "/bin/scrot" && -f "/bin/maim" ]]
-        then
+        command -v maim
 
+        if [[ "$?" == "0" ]]
+        then
             backend="maim"
-
-        elif [[ -f "/bin/maim" ]]
-        then
-
-            backend="maim"
-
-        elif [[ -f "/bin/scrot" ]]
-        then
-
-            backend="scrot"
-
         else
-
-            echo "No supported backend found"
-            exit 1
-
+            command -v scrot
+            if [[ "$?" == "0" ]]
+            then
+                backend="scrot"
+            else
+                echo "No supported backend found"
+                exit 1
+            fi
         fi
 
     fi
