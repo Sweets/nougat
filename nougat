@@ -17,7 +17,7 @@ saveourship(){
    echo -e  " -c - Puts the screenshot into your clipboard\n"
    echo -e  " -u - Hide cursor. (maim backend ONLY, see -b)"
    echo     " -b - Select backend to use"
-   echo -e  "              Supported backends are \`maim' and \`scrot'."
+   echo -e  "              Supported backends are \`maim', \`scrot', and \`imagemagick'."
    echo -e  "              nougat will detect available backends if -b"
    echo -e  "              is not specified. nougat prefers maim to scrot.\n"
    echo     " -p - Cleans the \`all' subdirectory of $NOUGAT_SCREENSHOT_DIRECTORY."
@@ -55,8 +55,16 @@ copytoclipboard=false
 backend=""
 cursor=true
 
-suffix="_full"
-supportedbackends=("maim" "scrot")
+supportedbackends=("maim" "scrot" "imagemagick")
+
+cleanup(){
+
+    if [[ -f "/tmp/nougat_temp.png" ]]
+    then
+        rm /tmp/nougat_temp.png
+    fi
+
+}
 
 maimbackend(){
 
@@ -64,79 +72,37 @@ maimbackend(){
 
     if [[ "$fullscreen" == "false" ]]
     then
-        suffix=""
-        maimopts="-s "
+        maimopts="-s"
     fi
+
     if [[ "$cursor" == "false" ]]
     then
-        maimopts="${maimopts}-u "
+        maimopts="${maimopts} -u"
     fi
 
-    filename=$(date +"%F.%H:%M:%S$suffix.png")
-
-    if [[ "$temp" == "true" ]]
-    then
-
-        maimopts="$maimopts /tmp/$filename"
-
-        if [[ "$copytoclipboard" == "true" ]]
-        then
-
-            maimopts="$maimopts | xclip -selection clipboard -t image/png"
-
-        fi
-
-        if [[ "$silent" == "false" ]]
-        then
-
-            maimopts="$maimopts; echo /tmp/$filename"
-
-        fi
-
-    else
-
-        maimopts="$maimopts /tmp/nougat_temp.png"
-
-    fi
-
-    /bin/bash -c "maim $maimopts"
+    command maim $maimopts /tmp/nougat_temp.png
 
 }
 
-scrotbackend() {
+scrotbackend(){
 
     scrotopts=""
 
     if [[ "$fullscreen" == "false" ]]
     then
-        suffix=""
-        scrotopts="-s "
+        scrotopts="-s"
     fi
 
-    if [[ "$temp" == "true" ]]
-    then
-        scrotcmdtemp='mv $f /tmp'
-
-        if [[ "$copytoclipboard" == "true" ]]
-        then
-            scrotcmdtemp="$scrotcmdtemp; "'xclip -selection clipboard -t image/png /tmp/$f'
-        fi
-
-        if [[ "$silent" == "false" ]]
-        then
-            scrotcmdtemp="$scrotcmdtemp; echo /tmp/"'$f'
-        fi
-
-        scrotopts="$scrotopts"'"%F.%H:%M:%S'"$suffix"'.png" -e '"'""$scrotcmdtemp""'"
-    else
-        scrotopts="$scrotopts"'"nougat_temp.png" -e '"'"'mv $f /tmp'"'"
-    fi
-
-    /bin/bash -c "scrot $scrotopts"
+    command "scrot ${scrotopts} /tmp/nougat_temp.png"
 
 }
 
-runbackend(){
+imagemagickbackend(){
+    echo "Not yet implemented."
+    exit 1
+}
+
+screenshotpls(){
 
     if [[ "$backend" == "" ]]
     then
@@ -152,11 +118,39 @@ runbackend(){
             then
                 backend="scrot"
             else
-                echo "No supported backend found"
-                exit 1
+                command -v import > /dev/null
+                if [[ "$?" == "0" ]]
+                then
+                    backend="imagemagick"
+                else
+                    echo "No supported backend found"
+                    exit 1
+                fi
             fi
         fi
 
+    fi
+
+    if [[ "$backend" == "maim" ]]
+    then
+
+        maimbackend
+
+    elif [[ "$backend" == "scrot" ]]
+    then
+
+        scrotbackend
+
+    elif [[ "$backend" == "imagemagick" ]]
+    then
+
+        imagemagickbackend
+
+    fi
+
+    if [[ ! -f "/tmp/nougat_temp.png" ]]
+    then # Stops nougat from continuing and moving a non-existant file
+        exit 0
     fi
 
     if [[ "$copytoclipboard" == "true" ]]
@@ -173,68 +167,50 @@ runbackend(){
 
         fi
 
-    fi
-
-    if [[ "$backend" == "maim" ]]
-    then
-
-        maimbackend
-
-    elif [[ "$backend" == "scrot" ]]
-    then
-
-        scrotbackend
+        xclip -selection clipboard -t image/png /tmp/nougat_temp.png
 
     fi
 
-}
+    year=`date +'%Y'`
+    month=`date +'%B'`
+    day=`date +'%d'`
 
-screenshotpls(){
+    path="${NOUGAT_SCREENSHOT_DIRECTORY}/${year}/${month}/${day}"
 
-    runbackend
+    name=`date +'%H:%M:%S'`
 
-    if [[ ! -f "/tmp/nougat_temp.png" ]]
-    then # Stops nougat from continuing and moving a non-existant file
+    if [[ "$fullscreen" == "true" ]]
+    then
+        name="${name}_full"
+    fi
+
+    name="${name}.png"
+
+    if [[ "$temp" == "true" ]]
+    then
+
+        name="${year}-${month}-${day}.${name}"
+
+        mv /tmp/nougat_temp.png /tmp/$name
+
+        echo "/tmp/${name}"
         exit 0
+
     fi
 
-    year=$(date +"%Y")
-    month=$(date +"%B") # Nice and readable
-    day=$(date +"%d")
+    mkdir -p $path
 
-    dir="$NOUGAT_SCREENSHOT_DIRECTORY/$year/$month/$day"
-    mkdir -p $dir
-
-    name=$(date +"%H:%M:%S$suffix.png")
-
-    mv /tmp/nougat_temp.png $dir/$name
-
-    linkname="$year-$month-$day.$name"
-
-    ln -s $dir/$name $NOUGAT_SCREENSHOT_DIRECTORY/all/$linkname
-
-    if [[ "$copytoclipboard" == "true" ]]
-    then
-        xclip -selection clipboard -t image/png $dir/$name
-    fi
+    linkname="${year}-${month}-${day}.${name}"
+    ln -s $path/$name $NOUGAT_SCREENSHOT_DIRECTORY/all/$linkname
 
     if [[ "$silent" == "false" ]]
     then
-        echo $dir/$name
+        echo "$path/$name"
     fi
 
 }
 
 setbackend() {
-
-    path=$(command -v "$1")
-
-    if [[ ! -f "/bin/$1" ]]
-    then
-
-        echo "Binary /bin/$1 does not exist."
-
-    fi
 
     supported=false
 
@@ -257,6 +233,20 @@ setbackend() {
         echo "Unsupported backend $1"
         exit 1
 
+    fi
+
+    cmd="$1"
+
+    if [[ "$cmd" == "imagemagick" ]]
+    then
+        cmd="import"
+    fi
+
+    command -v "$cmd" > /dev/null
+    if [[ "$?" != "0" ]]
+    then
+        echo "Backend not installed on your system."
+        exit 1
     fi
 
     backend=$1
@@ -440,6 +430,7 @@ else
         mkdir "$NOUGAT_SCREENSHOT_DIRECTORY/all"
     fi
 
+    cleanup
     screenshotpls
 
 fi
