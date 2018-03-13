@@ -141,13 +141,13 @@ runbackend(){
     if [[ "$backend" == "" ]]
     then
 
-        command -v maim
+        command -v maim > /dev/null
 
         if [[ "$?" == "0" ]]
         then
             backend="maim"
         else
-            command -v scrot
+            command -v scrot > /dev/null
             if [[ "$?" == "0" ]]
             then
                 backend="scrot"
@@ -162,7 +162,7 @@ runbackend(){
     if [[ "$copytoclipboard" == "true" ]]
     then
 
-        command -v xclip
+        command -v xclip > /dev/null
 
         if [[ "$?" != "0" ]]
         then
@@ -226,6 +226,8 @@ screenshotpls(){
 }
 
 setbackend() {
+
+    path=$(command -v "$1")
 
     if [[ ! -f "/bin/$1" ]]
     then
