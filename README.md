@@ -1,6 +1,10 @@
 # nougat
 Screenshot wrapper for scrot and maim
 
+# Installation
+
+Assuming dependencies have been met (see Dependencies), move the `nougat` file to a directory that is included in your PATH variable. If you would rather have it available system-wide, place the file into `/usr/bin/`.
+
 # How it works
 Whenever you take a screenshot using nougat, it will organize the screenshot into a subdirectory of the directory specified in the NOUGAT_SCREENSHOT_DIRECTORY variable. This is done to organize screenshots in a humane manner. Then a symbolic link is created to the screenshot in the "all" subdirectory. This helps find screenshots quickly rather than having to go through all subdirectories.
 
