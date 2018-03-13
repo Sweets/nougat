@@ -162,7 +162,9 @@ runbackend(){
     if [[ "$copytoclipboard" == "true" ]]
     then
 
-        if [[ ! -f "/bin/xclip" ]]
+        command -v xclip
+
+        if [[ "$?" != "0" ]]
         then
 
             echo "xclip is not installed"
