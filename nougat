@@ -2,7 +2,6 @@
 #!/bin/bash
 
 # Nougat
-# maim/scrot wrapper
 # Helps organize screenshots
 
 saveourship(){
@@ -95,7 +94,7 @@ scrotbackend(){
         scrotopts="-s"
     fi
 
-    command "scrot ${scrotopts} /tmp/nougat_temp.png"
+    command scrot ${scrotopts} /tmp/nougat_temp.png
 
 }
 
@@ -451,7 +450,7 @@ else
 
     if [[ -d "$lastarg" ]]
     then
-        specifieddirectory="$lastarg"
+        specifieddirectory="$lastarg/"
     elif [[ -f "$lastarg" ]]
     then
         specifiedpath="$lastarg"
