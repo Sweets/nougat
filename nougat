@@ -6,7 +6,7 @@
 
 saveourship(){
 
-   echo -e  "Nougat - scrot wrapper created to help organize screenshots\n"
+   echo -e  "Nougat - screenshot wrapper created to help organize screenshots\n"
    echo -e  " -h - Saves our ship.\n"
    echo     " -s - Silent. By default, nougat will output the path to the file to STDOUT."
    echo -e  "              This is to make it easier to implement into other file uploaders.\n"
@@ -53,7 +53,6 @@ silent=false
 copytoclipboard=false
 backend=""
 specifieddirectory=""
-specifiedpath=""
 cursor=true
 
 supportedbackends=("maim" "scrot" "imagemagick")
@@ -99,8 +98,34 @@ scrotbackend(){
 }
 
 imagemagickbackend(){
-    echo "Not yet implemented."
-    exit 1
+
+    importopts=""
+
+    if [[ "$fullscreen" == "false" ]]
+    then
+
+        command -v slop > /dev/null
+
+        if [[ "$?" != "0" ]]
+        then
+            echo "slop is not installed"
+            echo "Install slop for imagemagick backend support"
+            exit 1
+        fi
+
+        slop=$(command slop -qof '%wx%h+%x+%y')
+
+        if [[ "$slop" != "" ]]
+        then
+
+            importopts="-crop ${slop}"
+
+        fi
+
+    fi
+
+    command import -window root ${importopts} /tmp/nougat_temp.png
+
 }
 
 screenshotpls(){
@@ -451,10 +476,6 @@ else
     if [[ -d "$lastarg" ]]
     then
         specifieddirectory="$lastarg/"
-    elif [[ -f "$lastarg" ]]
-    then
-        specifiedpath="$lastarg"
-        #TODO: implement for names as well
     fi
 
     cleanup
