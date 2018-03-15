@@ -128,7 +128,7 @@ imagemagickbackend(){
 
 }
 
-screenshotpls(){
+runbackend(){
 
     if [[ "$backend" == "" ]]
     then
@@ -157,22 +157,23 @@ screenshotpls(){
 
     fi
 
-    if [[ "$backend" == "maim" ]]
-    then
+    case "$backend" in
+        maim)
+            maimbackend
+            ;;
+        scrot)
+            scrotbackend
+            ;;
+        imagemagick)
+            imagemagickbackend
+            ;;
+    esac
 
-        maimbackend
+}
 
-    elif [[ "$backend" == "scrot" ]]
-    then
+screenshotpls(){
 
-        scrotbackend
-
-    elif [[ "$backend" == "imagemagick" ]]
-    then
-
-        imagemagickbackend
-
-    fi
+    runbackend
 
     if [[ ! -f "/tmp/nougat_temp.png" ]]
     then # Stops nougat from continuing and moving a non-existant file
@@ -290,6 +291,8 @@ setbackend() {
 }
 
 selectimgs() {
+
+    # TODO: clean this
 
     images=()
 
