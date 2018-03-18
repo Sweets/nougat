@@ -231,7 +231,7 @@ screenshotpls(){
 
         mv /tmp/nougat_temp.png /tmp/$name
 
-        echo "/tmp/${name}"
+        [[ "$silent" == "false" ]] && echo "/tmp/${name}"
         exit 0
 
     fi
