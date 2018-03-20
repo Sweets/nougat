@@ -262,14 +262,12 @@ clean(){
     linkdir=`dirname "${NOUGAT_SCREENSHOT_DIRECTORY}/${NOUGAT_LINKING_POLICY}"`
     echo "$linkdir"
 
-    for file in `ls ${linkdir}`
+    for file in "${linkdir}/"*
     do
 
-        echo "$linkdir/$file"
+        link=`readlink -f "$file"`
 
-        link=`readlink -f "$linkdir/$file"`
-
-        [[ ! -f "$link" ]] && rm "$linkdir/$file"
+        [[ ! -f "$link" ]] && rm "$file"
 
     done
 }
