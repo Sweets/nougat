@@ -269,7 +269,7 @@ clean(){
 
         link=`readlink -f "$linkdir/$file"`
 
-        [[ ! -f "$link" ]] && rm "$link"
+        [[ ! -f "$link" ]] && rm "$linkdir/$file"
 
     done
 }
