@@ -1,0 +1,251 @@
+####################################
+#         System information       #
+####################################
+# Date:                   2018:03:20 
+# Time:                   20:48:21 
+# Xnee program:           cnee 
+# Xnee version:           3.19 
+# Xnee home:              http://www.gnu.org/software/xnee/ 
+# Xnee info mailing list: info-xnee@gnu.org 
+# Xnee bug mailing list:  bug-xnee@gnu.org 
+# X version:              11 
+# X revision:             0 
+# X vendor:               The X.Org Foundation 
+# X vendor release:       11906000 
+# Record version major:   1
+# Record version minor:   13
+# OS name:                Linux 
+# OS Release:             4.16.0-rc5 
+# OS Version:             #2 SMP Sat Mar 17 16:44:54 GMT 2018 
+# Machine:                x86_64 
+# Nodename:               localhost.localdomain 
+# Display name:           :0
+# Dimension:              3200x1800
+
+
+
+##############################################
+#      Xnee application arguments            #
+##############################################
+#  cnee --record --mouse -o cnee.data 
+
+
+##############################################
+#      Displays                              #
+##############################################
+# display :0
+# distribute
+
+
+##############################################
+#      Files                                 #
+##############################################
+# out-file cnee.data
+# err-file stderr
+
+
+##############################################
+#      Key Grabs                             #
+##############################################
+# stop-key         0
+# pause-key        0
+# resume-key       0
+# insert-key       0
+# exec-key         0
+# exec-program-key         xnee-exec-no-program
+
+
+##############################################
+#      Recording limits etc                  #
+##############################################
+
+events-to-record        -1
+data-to-record          -1
+seconds-to-record       -1
+# first-last
+
+# Record  all (including current) clients or only future ones
+all-clients
+# future-clients
+
+# Store the starting mouse position 
+# store-mouse-position
+
+
+##############################################
+#      Resolution                            #
+##############################################
+
+# Resolution
+#recorded-resolution  3200x1800
+#replay-resolution  1x1
+#resolution-adjustment  0
+
+
+##############################################
+#      Speed                                 #
+##############################################
+
+# Speed
+#speed-percent  100
+
+
+##############################################
+#      Replaying limits etc                  #
+##############################################
+
+max-threshold 20 
+min-threshold 20 
+tot-threshold 40 
+
+
+##############################################
+#      Feedback                              #
+##############################################
+#feedback-none
+#feedback-stderr
+feedback-xosd
+ 
+
+
+##############################################
+#      Various                               #
+##############################################
+
+# Plugin file 
+
+# Modes (currently not used)
+# synchronised-replay
+
+# Replay offset
+#replay-offset 0x0
+
+# Human printout of X11 data (instead of Xnee format)
+# human-printout  
+
+# Delay before starting record/replay
+# time 0
+
+# No recording of ReparentNotify
+# no-reparent-recording 
+
+# Various
+#########################################
+#          Record settings              #
+#########################################
+#   data_flags          7
+#   rState              0x559295fc8270
+#   xids[0]             3
+#   xids[1]             0
+# Number of Ranges      3
+# RecordRange[0]
+request-range            0-0
+reply-range                   0-0 
+extension-request-major-range  0-0 
+extension-request-minor-range  0-0 
+extension-reply-major-range   0-0
+extension-reply-minor-range   0-0 
+delivered-event-range         21-21 
+device-event-range            4-6 
+error-range                   0-0 
+# RecordRange[1]
+request-range            0-0
+reply-range                   0-0 
+extension-request-major-range  0-0 
+extension-request-minor-range  0-0 
+extension-reply-major-range   0-0
+extension-reply-minor-range   0-0 
+delivered-event-range         0-0 
+device-event-range            66-66 
+error-range                   0-0 
+# RecordRange[2]
+request-range            0-0
+reply-range                   0-0 
+extension-request-major-range  0-0 
+extension-request-minor-range  0-0 
+extension-reply-major-range   0-0
+extension-reply-minor-range   0-0 
+delivered-event-range         0-0 
+device-event-range            69-71 
+error-range                   0-0 
+7,4,0,0,1,0,0,65634720,14,SynPS/2 Synaptics TouchPad
+6,4,0,0,1,0,0,65634720,2,Virtual core pointer
+7,6,29,41,0,0,0,65635247,14,'SynPS/2 Synaptics TouchPad'
+7,6,33,44,0,0,0,65635263,14,'SynPS/2 Synaptics TouchPad'
+7,6,36,47,0,0,0,65635272,14,'SynPS/2 Synaptics TouchPad'
+7,6,42,52,0,0,0,65635285,14,'SynPS/2 Synaptics TouchPad'
+7,6,47,56,0,0,0,65635296,14,'SynPS/2 Synaptics TouchPad'
+7,6,54,61,0,0,0,65635314,14,'SynPS/2 Synaptics TouchPad'
+7,6,62,68,0,0,0,65635322,14,'SynPS/2 Synaptics TouchPad'
+7,6,70,75,0,0,0,65635334,14,'SynPS/2 Synaptics TouchPad'
+7,6,78,81,0,0,0,65635347,14,'SynPS/2 Synaptics TouchPad'
+7,6,86,88,0,0,0,65635361,14,'SynPS/2 Synaptics TouchPad'
+7,6,96,95,0,0,0,65635372,14,'SynPS/2 Synaptics TouchPad'
+7,6,105,103,0,0,0,65635384,14,'SynPS/2 Synaptics TouchPad'
+7,6,114,110,0,0,0,65635397,14,'SynPS/2 Synaptics TouchPad'
+7,6,123,118,0,0,0,65635410,14,'SynPS/2 Synaptics TouchPad'
+7,6,132,125,0,0,0,65635424,14,'SynPS/2 Synaptics TouchPad'
+7,6,140,131,0,0,0,65635434,14,'SynPS/2 Synaptics TouchPad'
+7,6,147,137,0,0,0,65635447,14,'SynPS/2 Synaptics TouchPad'
+7,6,155,143,0,0,0,65635460,14,'SynPS/2 Synaptics TouchPad'
+7,6,164,149,0,0,0,65635478,14,'SynPS/2 Synaptics TouchPad'
+7,6,171,154,0,0,0,65635484,14,'SynPS/2 Synaptics TouchPad'
+7,6,177,160,0,0,0,65635500,14,'SynPS/2 Synaptics TouchPad'
+7,6,185,166,0,0,0,65635510,14,'SynPS/2 Synaptics TouchPad'
+7,6,193,173,0,0,0,65635522,14,'SynPS/2 Synaptics TouchPad'
+7,6,202,181,0,0,0,65635537,14,'SynPS/2 Synaptics TouchPad'
+7,6,212,188,0,0,0,65635548,14,'SynPS/2 Synaptics TouchPad'
+7,6,220,194,0,0,0,65635559,14,'SynPS/2 Synaptics TouchPad'
+7,6,229,201,0,0,0,65635573,14,'SynPS/2 Synaptics TouchPad'
+7,6,238,209,0,0,0,65635591,14,'SynPS/2 Synaptics TouchPad'
+7,6,249,216,0,0,0,65635598,14,'SynPS/2 Synaptics TouchPad'
+7,6,258,224,0,0,0,65635610,14,'SynPS/2 Synaptics TouchPad'
+7,6,268,232,0,0,0,65635622,14,'SynPS/2 Synaptics TouchPad'
+7,6,277,239,0,0,0,65635635,14,'SynPS/2 Synaptics TouchPad'
+7,6,287,246,0,0,0,65635654,14,'SynPS/2 Synaptics TouchPad'
+7,6,298,253,0,0,0,65635661,14,'SynPS/2 Synaptics TouchPad'
+7,6,307,259,0,0,0,65635673,14,'SynPS/2 Synaptics TouchPad'
+7,6,317,265,0,0,0,65635685,14,'SynPS/2 Synaptics TouchPad'
+7,6,327,272,0,0,0,65635697,14,'SynPS/2 Synaptics TouchPad'
+7,6,337,279,0,0,0,65635716,14,'SynPS/2 Synaptics TouchPad'
+7,6,348,287,0,0,0,65635723,14,'SynPS/2 Synaptics TouchPad'
+7,6,359,296,0,0,0,65635736,14,'SynPS/2 Synaptics TouchPad'
+7,6,370,304,0,0,0,65635749,14,'SynPS/2 Synaptics TouchPad'
+7,6,381,311,0,0,0,65635760,14,'SynPS/2 Synaptics TouchPad'
+7,6,391,317,0,0,0,65635780,14,'SynPS/2 Synaptics TouchPad'
+7,6,398,321,0,0,0,65635785,14,'SynPS/2 Synaptics TouchPad'
+7,6,402,323,0,0,0,65635798,14,'SynPS/2 Synaptics TouchPad'
+7,6,405,325,0,0,0,65635811,14,'SynPS/2 Synaptics TouchPad'
+7,6,407,326,0,0,0,65635824,14,'SynPS/2 Synaptics TouchPad'
+7,6,408,327,0,0,0,65635842,14,'SynPS/2 Synaptics TouchPad'
+7,6,410,328,0,0,0,65635848,14,'SynPS/2 Synaptics TouchPad'
+7,6,411,329,0,0,0,65635861,14,'SynPS/2 Synaptics TouchPad'
+7,5,0,0,1,0,0,65636224,14,SynPS/2 Synaptics TouchPad
+6,5,0,0,1,0,0,65636224,2,Virtual core pointer
+7,6,412,330,0,0,0,65637792,14,'SynPS/2 Synaptics TouchPad'
+7,6,413,334,0,0,0,65637804,14,'SynPS/2 Synaptics TouchPad'
+7,6,418,352,0,0,0,65637817,14,'SynPS/2 Synaptics TouchPad'
+7,6,426,380,0,0,0,65637829,14,'SynPS/2 Synaptics TouchPad'
+7,6,438,414,0,0,0,65637841,14,'SynPS/2 Synaptics TouchPad'
+7,6,457,460,0,0,0,65637854,14,'SynPS/2 Synaptics TouchPad'
+7,6,488,536,0,0,0,65637867,14,'SynPS/2 Synaptics TouchPad'
+7,6,543,677,0,0,0,65637879,14,'SynPS/2 Synaptics TouchPad'
+7,6,614,852,0,0,0,65637891,14,'SynPS/2 Synaptics TouchPad'
+7,6,699,1044,0,0,0,65637904,14,'SynPS/2 Synaptics TouchPad'
+7,6,778,1214,0,0,0,65637917,14,'SynPS/2 Synaptics TouchPad'
+7,6,825,1330,0,0,0,65638179,14,'SynPS/2 Synaptics TouchPad'
+7,6,826,1337,0,0,0,65638194,14,'SynPS/2 Synaptics TouchPad'
+7,6,826,1341,0,0,0,65638205,14,'SynPS/2 Synaptics TouchPad'
+7,6,827,1346,0,0,0,65638216,14,'SynPS/2 Synaptics TouchPad'
+7,6,827,1350,0,0,0,65638229,14,'SynPS/2 Synaptics TouchPad'
+7,6,827,1353,0,0,0,65638242,14,'SynPS/2 Synaptics TouchPad'
+7,6,827,1356,0,0,0,65638255,14,'SynPS/2 Synaptics TouchPad'
+7,6,827,1358,0,0,0,65638267,14,'SynPS/2 Synaptics TouchPad'
+7,6,827,1360,0,0,0,65638280,14,'SynPS/2 Synaptics TouchPad'
+7,6,827,1361,0,0,0,65638293,14,'SynPS/2 Synaptics TouchPad'
+7,6,827,1362,0,0,0,65638305,14,'SynPS/2 Synaptics TouchPad'
+7,6,827,1364,0,0,0,65638318,14,'SynPS/2 Synaptics TouchPad'
+7,4,0,0,1,0,0,65638331,14,SynPS/2 Synaptics TouchPad
+6,4,0,0,1,0,0,65638331,2,Virtual core pointer
+7,5,0,0,1,0,0,65638484,14,SynPS/2 Synaptics TouchPad
+6,5,0,0,1,0,0,65638484,2,Virtual core pointer
