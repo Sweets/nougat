@@ -10,5 +10,6 @@ before_install:
 - sudo apt-get install -y docker-ce
 script:
 - sudo docker build -t local/nougat_tests -f tests/Dockerfile --no-cache .
+- sudo chown -R 1000 "$PWD"
 - sudo docker run -it --rm -v "$PWD:/opt/nougat" -e CI=true local/nougat_tests
 
