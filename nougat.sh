@@ -41,7 +41,7 @@ maimbackend(){
     maimopts=''
 
     [[ "${fullscreen}" == 'false' ]] && maimopts='-s'
-    maimopts="${maimopts} -u"
+    maimopts="${maimopts} --hidecursor"
 
     command maim ${maimopts} /tmp/nougat_temp.png
 }
