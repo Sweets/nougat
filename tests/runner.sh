@@ -2,4 +2,4 @@
 
 export PATH="$PWD/bin:$PATH"
 
-bats -p .
+bats -t .
