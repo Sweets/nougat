@@ -1,5 +1,7 @@
 # Nougat
 
+[![Build Status](https://travis-ci.org/Sweets/nougat.svg?branch=master)](https://travis-ci.org/Sweets/nougat)
+
 Screenshot wrapper and organization script.
 
 # Documentation
