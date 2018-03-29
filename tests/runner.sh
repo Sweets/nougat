@@ -2,4 +2,9 @@
 
 export PATH="$PWD/bin:$PATH"
 
-bats -t .
+if [ "$CI" = "true" ]
+then
+  bats -t .
+else
+  bats -p .
+fi
