@@ -26,6 +26,7 @@ saveourship(){
 }
 
 temporary=false
+clean=false
 silent=false
 fullscreen=false
 copytoclipboard=false
@@ -167,7 +168,7 @@ EOF
                 ;;
             # Hide cursor
             p)
-                clean
+                clean=true
                 ;;
             s)
                 silent=true
@@ -184,14 +185,16 @@ EOF
         esac
     done
 
-    nobackend && \
-        testfor maim && backend='maim'
+    local exitcode; exitcode="$?"
 
     nobackend && \
-        testfor scrot && backend='scrot'
+        testfor maim && backend='maim' && return "$exitcode"
 
     nobackend && \
-        testfor import && backend='imagemagick'
+        testfor scrot && backend='scrot' && return "$exitcode"
+
+    nobackend && \
+        testfor import && backend='imagemagick' && return "$exitcode"
 
 }
 
@@ -277,14 +280,15 @@ clean(){
     source ~/.config/nougat
 
     linkdir=`dirname "${NOUGAT_SCREENSHOT_DIRECTORY}/${NOUGAT_LINKING_POLICY}"`
-    echo "$linkdir"
+    [ "$silent" = "false" ] && echo "$linkdir"
+
+    [ ! -d "$linkdir" ] || [ "$(ls -1 "$linkdir" | wc -l)" -eq 0 ] && return 0
 
     for file in "${linkdir}/"*
     do
-
         link=`readlink -f "$file"`
 
-        [[ ! -f "$link" ]] && rm "$file"
+        if [[ ! -f "$link" ]] ; then rm "$file"; fi
 
     done
 }
@@ -295,4 +299,24 @@ screenshot(){
 }
 
 init $@
+
+if [ "$clean" = "true" ]
+then
+  clean
+  x="$?"
+  
+  if [ "$#" -eq 1 ]
+  then
+    [ "$1" = "-p" ] || [ "$1" = "-ps" ] || [ "$1" = "-sp" ] && exit "$x"
+  fi
+  
+  if [ "$#" -eq 2 ]
+  then
+    if [ "$1" = "-p" ] || [ "$1" = "-s" ]
+    then
+      [ "$2" = "-p" ] || [ "$2" = "-s" ] && exit "$x"
+    fi
+  fi
+fi
+
 screenshot
