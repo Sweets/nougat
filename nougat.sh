@@ -125,12 +125,14 @@ getcanonicals(){
     source "`getconfigdir`/nougat"
 
     ORG_FULLPATH="${NOUGAT_SCREENSHOT_DIRECTORY}/${NOUGAT_ORGANIZATION_POLICY}"
-    LINK_FULLPATH="${NOUGAT_SCREENSHOT_DIRECTORY}/${NOUGAT_LINKING_POLICY}"
+    [[ -n "$NOUGAT_LINKING_POLICY" ]] && \
+      LINK_FULLPATH="${NOUGAT_SCREENSHOT_DIRECTORY}/${NOUGAT_LINKING_POLICY}" || \
+      LINK_FULLPATH=""
 
     echo `dirname "${ORG_FULLPATH}"` \
         `basename "${ORG_FULLPATH}"` \
-        `dirname "${LINK_FULLPATH}"` \
-        `basename "${LINK_FULLPATH}"`
+        `[[ -n "$LINK_FULLPATH" ]] && dirname  "${LINK_FULLPATH}"` \
+        `[[ -n "$LINK_FULLPATH" ]] && basename "${LINK_FULLPATH}"`
 
 }
 
@@ -265,10 +267,10 @@ organize(){
     fi
 
     mkdir -p "$fullpath"
-    mkdir -p "$linkpath"
+    [[ -n "$linkpath" ]] && mkdir -p "$linkpath"
 
     mv /tmp/nougat_temp.png "$fullpath/$filename.png"
-    ln -s "$fullpath/$filename.png" "$linkpath/$linkname.png"
+    [[ -n "$linkpath" ]] && ln -s "$fullpath/$filename.png" "$linkpath/$linkname.png"
 
     [[ "${silent}" == 'false' ]] && \
         echo "$fullpath/$filename.png"
