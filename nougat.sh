@@ -300,7 +300,7 @@ screenshot(){
     organize
 }
 
-init $@
+init "$@"
 
 if [[ "$clean" == true ]]
 then
