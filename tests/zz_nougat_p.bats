@@ -28,7 +28,7 @@
  stdout="$(../nougat.sh -ps)"
 
  # should be silent
- [ -z "$stdout" ]
+ [[ -z "$stdout" ]]
 
  ! test -L "$HOME/Screenshots/All/$YEAR-$MONTH-$DAY.$SCREENSHOT"
 }

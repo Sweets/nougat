@@ -41,10 +41,10 @@ maimbackend(){
 
     maimopts=''
 
-    [[ "${fullscreen}" == 'false' ]] && maimopts='-s'
-    maimopts="${maimopts} --hidecursor"
+    [[ "$fullscreen" == false ]] && maimopts=-s
+    maimopts="$maimopts --hidecursor"
 
-    command maim ${maimopts} /tmp/nougat_temp.png
+    command maim $maimopts /tmp/nougat_temp.png
 }
 
 scrotbackend(){
@@ -52,9 +52,9 @@ scrotbackend(){
     
     scrotopts=''
 
-    [[ "${fullscreen}" == 'false' ]] && scrotopts='-s'
+    [[ "$fullscreen" == false ]] && scrotopts=-s
 
-    command scrot ${scrotopts} /tmp/nougat_temp.png
+    command scrot $scrotopts /tmp/nougat_temp.png
 }
 
 imagemagickbackend(){
@@ -62,22 +62,22 @@ imagemagickbackend(){
 
     importopts=''
 
-    if [[ "$fullscreen" == 'false' ]]
+    if [[ "$fullscreen" == false ]]
     then
         require slop
 
-        slop=`command slop -qof '%wx%h+%x+%y'`
+        slop=$(command slop -qof '%wx%h+%x+%y')
 
-        [[ "$slop" != '' ]] && importopts="-crop ${slop}"
+        [[ -n $slop ]] && importopts="-crop $slop"
     fi
 
-    command import -window root ${importopts} /tmp/nougat_temp.png
+    command import -window root $importopts /tmp/nougat_temp.png
 }
 
 ### END BACKENDS
 
 nobackend(){
-    if [[ "${backend}" == '' ]]
+    if [[ -z $backend ]]
     then
         return 0
     else
@@ -86,13 +86,13 @@ nobackend(){
 }
 
 testfor() {
-    command -v $1 > /dev/null
-    return $?
+    command -v "$1" &> /dev/null
+    return "$?"
 }
 
 require(){
-    command -v $1 > /dev/null
-    if [[ "$?" != '0' ]]
+    command -v "$1" &> /dev/null
+    if [[ "$?" != 0 ]]
     then
         echo "$1 is not installed and is required"
         exit 1
@@ -103,7 +103,7 @@ getconfigdir(){
 
     CONFIG_DIR="$XDG_CONFIG_HOME"
 
-    if [[ ! -d "$CONFIG_DIR" ]]
+    if [[ ! -d $CONFIG_DIR ]]
     then
         CONFIG_DIR="$HOME/.config"
     fi
@@ -114,40 +114,40 @@ getconfigdir(){
 
 getcanonicals(){
 
-    read year month day hour minute second <<< `date +'%Y %B %d %H %M %S'`
+    read -r year month day hour minute second <<< "$(date +'%Y %B %d %H %M %S')"
 
     suffix=''
-    if [[ "${fullscreen}" == 'true' ]]
+    if [[ "$fullscreen" == true ]]
     then
-        suffix='_full'
+        suffix=_full
     fi
 
-    source "`getconfigdir`/nougat"
+    source "$(getconfigdir)/nougat"
 
-    ORG_FULLPATH="${NOUGAT_SCREENSHOT_DIRECTORY}/${NOUGAT_ORGANIZATION_POLICY}"
-    [[ -n "$NOUGAT_LINKING_POLICY" ]] && \
-      LINK_FULLPATH="${NOUGAT_SCREENSHOT_DIRECTORY}/${NOUGAT_LINKING_POLICY}" || \
+    ORG_FULLPATH="$NOUGAT_SCREENSHOT_DIRECTORY/$NOUGAT_ORGANIZATION_POLICY"
+    [[ -n $NOUGAT_LINKING_POLICY ]] && \
+      LINK_FULLPATH="$NOUGAT_SCREENSHOT_DIRECTORY/$NOUGAT_LINKING_POLICY" || \
       LINK_FULLPATH=""
 
-    echo `dirname "${ORG_FULLPATH}"` \
-        `basename "${ORG_FULLPATH}"` \
-        `[[ -n "$LINK_FULLPATH" ]] && dirname  "${LINK_FULLPATH}"` \
-        `[[ -n "$LINK_FULLPATH" ]] && basename "${LINK_FULLPATH}"`
+    echo "$(dirname "$ORG_FULLPATH")" \
+        "$(basename "$ORG_FULLPATH")" \
+        "$([[ -n $LINK_FULLPATH ]] && dirname  "$LINK_FULLPATH")" \
+        "$([[ -n $LINK_FULLPATH ]] && basename "$LINK_FULLPATH")"
 
 }
 
 init() {
 
-    CONFIG_DIR=`getconfigdir`
+    CONFIG_DIR=$(getconfigdir)
 
-    if [[ ! -f "$CONFIG_DIR/nougat" ]]
+    if [[ ! -f $CONFIG_DIR/nougat ]]
     then
         mkdir -p "$CONFIG_DIR"
 
-        if [[ "${NOUGAT_SCREENSHOT_DIRECTORY}" != '' ]]
+        if [[ -n $NOUGAT_SCREENSHOT_DIRECTORY ]]
         then
             # Support for V1 configurations
-            echo 'NOUGAT_SCREENSHOT_DIRECTORY="'"${NOUGAT_SCREENSHOT_DIRECTORY}"'"' > "$CONFIG_DIR/nougat"
+            echo 'NOUGAT_SCREENSHOT_DIRECTORY="'"$NOUGAT_SCREENSHOT_DIRECTORY"'"' > "$CONFIG_DIR/nougat"
         else
             echo 'NOUGAT_SCREENSHOT_DIRECTORY="$HOME/Screenshots"' > "$CONFIG_DIR/nougat"
         fi
@@ -190,13 +190,13 @@ EOF
     local exitcode; exitcode="$?"
 
     nobackend && \
-        testfor maim && backend='maim' && return "$exitcode"
+        testfor maim && backend=maim && return "$exitcode"
 
     nobackend && \
-        testfor scrot && backend='scrot' && return "$exitcode"
+        testfor scrot && backend=scrot && return "$exitcode"
 
     nobackend && \
-        testfor import && backend='imagemagick' && return "$exitcode"
+        testfor import && backend=imagemagick && return "$exitcode"
 
 }
 
@@ -206,14 +206,14 @@ setbackend(){
 
     for (( index=0; index<${#backends}; index++ ))
     do
-        if [[ "${backends[$index]}" == "$1" ]]
+        if [[ ${backends[$index]} == "$1" ]]
         then
             supported=true
             break
         fi
     done
 
-    if [[ "$supported" == 'false' ]]
+    if [[ "$supported" == false ]]
     then
         echo "Unsupported backend $1"
         exit 1
@@ -221,7 +221,7 @@ setbackend(){
 
     cmd="$1"
 
-    [[ "$cmd" == "imagemagick" ]] && cmd="import"
+    [[ "$cmd" == imagemagick ]] && cmd=import
 
     testfor $cmd && \
         backend="$1"
@@ -245,34 +245,34 @@ runbackend(){
             ;;
     esac
 
-    [[ ! -f '/tmp/nougat_temp.png' ]] && exit 0
+    [[ ! -f /tmp/nougat_temp.png ]] && exit 0
 }
 
 organize(){
 
-    read fullpath filename linkpath linkname <<< `getcanonicals`
+    read -r fullpath filename linkpath linkname <<< "$(getcanonicals)"
 
-    if [[ "${copytoclipboard}" == 'true' ]]
+    if [[ "$copytoclipboard" == true ]]
     then
         require xclip
         xclip -selection clipboard -t image/png /tmp/nougat_temp.png
     fi
 
-    if [[ "${temp}" == "true" ]]
+    if [[ "$temp" == true ]]
     then
-        [[ "${silent}" == 'false' ]] && \
-            echo "/tmp/${linkname}.png"
-        mv /tmp/nougat_temp.png "/tmp/${linkname}.png"
+        [[ "$silent" == false ]] && \
+            echo "/tmp/$linkname.png"
+        mv /tmp/nougat_temp.png "/tmp/$linkname.png"
         exit 0
     fi
 
     mkdir -p "$fullpath"
-    [[ -n "$linkpath" ]] && mkdir -p "$linkpath"
+    [[ -n $linkpath ]] && mkdir -p "$linkpath"
 
     mv /tmp/nougat_temp.png "$fullpath/$filename.png"
-    [[ -n "$linkpath" ]] && ln -s "$fullpath/$filename.png" "$linkpath/$linkname.png"
+    [[ -n $linkpath ]] && ln -s "$fullpath/$filename.png" "$linkpath/$linkname.png"
 
-    [[ "${silent}" == 'false' ]] && \
+    [[ $silent == false ]] && \
         echo "$fullpath/$filename.png"
 
     exit 0
@@ -281,16 +281,16 @@ organize(){
 clean(){
     source ~/.config/nougat
 
-    linkdir=`dirname "${NOUGAT_SCREENSHOT_DIRECTORY}/${NOUGAT_LINKING_POLICY}"`
-    [ "$silent" = "false" ] && echo "$linkdir"
+    linkdir=$(dirname "$NOUGAT_SCREENSHOT_DIRECTORY/$NOUGAT_LINKING_POLICY")
+    [[ "$silent" = false ]] && echo "$linkdir"
 
-    [ ! -d "$linkdir" ] || [ "$(ls -1 "$linkdir" | wc -l)" -eq 0 ] && return 0
+    [[ ! -d $linkdir ]] || [[ $(ls -1 "$linkdir" | wc -l) -eq 0 ]] && return 0
 
-    for file in "${linkdir}/"*
+    for file in "$linkdir/"*
     do
-        link=`readlink -f "$file"`
+        link=$(readlink -f "$file")
 
-        if [[ ! -f "$link" ]] ; then rm "$file"; fi
+        if [[ ! -f $link ]] ; then rm "$file"; fi
 
     done
 }
@@ -302,23 +302,23 @@ screenshot(){
 
 init $@
 
-if [ "$clean" = "true" ]
+if [[ "$clean" == true ]]
 then
-  clean
-  x="$?"
+    clean
+    x="$?"
   
-  if [ "$#" -eq 1 ]
-  then
-    [ "$1" = "-p" ] || [ "$1" = "-ps" ] || [ "$1" = "-sp" ] && exit "$x"
-  fi
-  
-  if [ "$#" -eq 2 ]
-  then
-    if [ "$1" = "-p" ] || [ "$1" = "-s" ]
+    if [[ $# -eq 1 ]]
     then
-      [ "$2" = "-p" ] || [ "$2" = "-s" ] && exit "$x"
+        [[ "$1" == -p ]] || [[ "$1" == -ps ]] || [[ "$1" == -sp ]] && exit "$x"
     fi
-  fi
+  
+    if [[ $# -eq 2 ]]
+    then
+        if [[ "$1" == -p ]] || [[ "$1" == -s ]]
+        then
+            [[ "$2" == -p ]] || [[ "$2" == -s ]] && exit "$x"
+        fi
+    fi
 fi
 
 screenshot

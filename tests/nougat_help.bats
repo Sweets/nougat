@@ -3,5 +3,5 @@
 @test "nougat -h" {
   ../nougat.sh -h
 
-  [ "$?" -eq 0 ]
+  [[ "$?" -eq 0 ]]
 }

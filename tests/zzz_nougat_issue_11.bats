@@ -3,7 +3,7 @@
 @test "nougat should not create symlinks when a linking policy is not defined" {
  ../nougat.sh -f
 
- [ -d "$HOME/Screenshots/All" ]
+ [[ -d "$HOME/Screenshots/All" ]]
 
  rm -rf "$HOME/Screenshots/All"
 
@@ -11,6 +11,6 @@
 
  ../nougat.sh -f
 
- [ ! -d "$HOME/Screenshots/All" ]
+ [[ ! -d "$HOME/Screenshots/All" ]]
 }
 
