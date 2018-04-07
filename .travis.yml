@@ -1,5 +1,6 @@
 language: generic
 before_install:
+- make
 - sudo apt-get -qq update
 - sudo apt-get remove -y docker docker-engine docker.io
 - sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common libgmp10

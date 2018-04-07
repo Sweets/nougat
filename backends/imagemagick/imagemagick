@@ -1,0 +1,16 @@
+imagemagickbackend(){
+    require import
+
+    importopts=''
+
+    if [[ "$fullscreen" == 'false' ]]
+    then
+        require slop
+
+        slop=`command slop -qof '%wx%h+%x+%y'`
+
+        [[ "$slop" != '' ]] && importopts="-crop ${slop}"
+    fi
+
+    command import -window root ${importopts} /tmp/nougat_temp.png
+}

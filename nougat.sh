@@ -1,9 +1,9 @@
-#!/bin/bash
+##!/bin/bash
 
-# Nougat version 2
+## Nougat version 2
 
-# All features from nougat 1
-# ~/.config/nougat
+## All features from nougat 1
+## ~/.config/nougat
 
 saveourship(){
 
@@ -32,47 +32,18 @@ fullscreen=false
 copytoclipboard=false
 backend=""
 
-backends=('maim' 'scrot' 'imagemagick')
+backends=()
+#if ENABLE_MAIM == 1
+backends+=( 'maim' )
+#endif
+#if ENABLE_SCROT == 1
+backends+=( 'scrot' )
+#endif
+#if ENABLE_IMAGEMAGICK == 1
+backends+=( 'imagemagick' )
+#endif
 
-### BACKENDS
-
-maimbackend(){
-    require maim
-
-    maimopts=''
-
-    [[ "${fullscreen}" == 'false' ]] && maimopts='-s'
-    maimopts="${maimopts} --hidecursor"
-
-    command maim ${maimopts} /tmp/nougat_temp.png
-}
-
-scrotbackend(){
-    require scrot
-    
-    scrotopts=''
-
-    [[ "${fullscreen}" == 'false' ]] && scrotopts='-s'
-
-    command scrot ${scrotopts} /tmp/nougat_temp.png
-}
-
-imagemagickbackend(){
-    require import
-
-    importopts=''
-
-    if [[ "$fullscreen" == 'false' ]]
-    then
-        require slop
-
-        slop=`command slop -qof '%wx%h+%x+%y'`
-
-        [[ "$slop" != '' ]] && importopts="-crop ${slop}"
-    fi
-
-    command import -window root ${importopts} /tmp/nougat_temp.png
-}
+#include "backends/backends.in"
 
 ### END BACKENDS
 
@@ -144,7 +115,7 @@ init() {
 
         if [[ "${NOUGAT_SCREENSHOT_DIRECTORY}" != '' ]]
         then
-            # Support for V1 configurations
+            ## Support for V1 configurations
             echo 'NOUGAT_SCREENSHOT_DIRECTORY="'"${NOUGAT_SCREENSHOT_DIRECTORY}"'"' > "$CONFIG_DIR/nougat"
         else
             echo 'NOUGAT_SCREENSHOT_DIRECTORY="$HOME/Screenshots"' > "$CONFIG_DIR/nougat"
@@ -166,7 +137,7 @@ EOF
             b)
                 setbackend $OPTARG
                 ;;
-            # Hide cursor
+            ## Hide cursor
             p)
                 clean=true
                 ;;
@@ -228,15 +199,21 @@ setbackend(){
 
 runbackend(){
     case $backend in
+        #ifdef ENABLE_MAIM
         maim)
             maimbackend
             ;;
+        #endif
+        #ifdef ENABLE_SCROT
         scrot)
             scrotbackend
             ;;
+        #endif
+        #ifdef ENABLE_IMAGEMAGICK
         imagemagick)
             imagemagickbackend
             ;;
+        #endif
         *)
             echo 'No supported backend found'
             exit 1

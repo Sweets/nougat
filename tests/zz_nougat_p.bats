@@ -10,7 +10,7 @@
 
  rm -f "$HOME/Screenshots/$YEAR/$MONTH/$DAY/$SCREENSHOT"
 
- ../nougat.sh -p
+ ../nougat -p
 
  ! test -L "$HOME/Screenshots/All/$YEAR-$MONTH-$DAY.$SCREENSHOT"
 }
@@ -25,7 +25,7 @@
 
  rm -f "$HOME/Screenshots/$YEAR/$MONTH/$DAY/$SCREENSHOT"
 
- stdout="$(../nougat.sh -ps)"
+ stdout="$(../nougat -ps)"
 
  # should be silent
  [ -z "$stdout" ]

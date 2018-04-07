@@ -11,7 +11,7 @@ nougat() {
 
   export DATE="@$RANDOM"
   echo "$RANDOM" > /dev/null
-  ../nougat.sh -b $NOUGAT_BACKEND >> /tmp/test.log 2>&1 &
+  ../nougat -b $NOUGAT_BACKEND >> /tmp/test.log 2>&1 &
 
   sleep 1
 
@@ -26,7 +26,7 @@ nougat() {
 nougat_f() {
   export DATE="@$RANDOM"
   echo "$RANDOM" > /dev/null
-  ../nougat.sh -b $NOUGAT_BACKEND -f >> /tmp/test.log 2>&1
+  ../nougat -b $NOUGAT_BACKEND -f >> /tmp/test.log 2>&1
 
   [ "$?" -eq 0 ]
 
@@ -42,7 +42,7 @@ nougat_fs() {
   echo "$RANDOM" > /dev/null
 
   # Should be silent (no output)
-  if ! STDOUT="$(../nougat.sh -b $NOUGAT_BACKEND -fs)"
+  if ! STDOUT="$(../nougat -b $NOUGAT_BACKEND -fs)"
   then
     printf "%s" "$STDOUT" >> /tmp/test.log 2>&1
     return 1
@@ -62,7 +62,7 @@ nougat_ft() {
   export DATE="@$RANDOM"
   echo "$RANDOM" > /dev/null
 
-  ../nougat.sh -b $NOUGAT_BACKEND -ft >> /tmp/test.log 2>&1
+  ../nougat -b $NOUGAT_BACKEND -ft >> /tmp/test.log 2>&1
 
   [ "$?" -eq 0 ]
 
@@ -81,7 +81,7 @@ nougat_ftc() {
   # a nougat issue since I can't reproduce it outside of the test environment
   # and running `nougat -b $NOUGAT_BACKEND -ftc` over VNC immediately fixes
   # things. I think this is some sort of race-condition :S
-  xterm -e "echo '' | xclip -selection clipboard -i;../nougat.sh -b $NOUGAT_BACKEND -ftc;xclip -selection clipboard -o > /tmp/${NOUGAT_BACKEND}_clipboard.png" >> /tmp/test.log 2>&1
+  xterm -e "echo '' | xclip -selection clipboard -i;../nougat -b $NOUGAT_BACKEND -ftc;xclip -selection clipboard -o > /tmp/${NOUGAT_BACKEND}_clipboard.png" >> /tmp/test.log 2>&1
 
   [ "$?" -eq 0 ]
 

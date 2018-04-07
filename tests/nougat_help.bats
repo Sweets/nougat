@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 
 @test "nougat -h" {
-  ../nougat.sh -h
+  ../nougat -h
 
   [ "$?" -eq 0 ]
 }

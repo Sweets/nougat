@@ -1,0 +1,22 @@
+#if ENABLE_ALL_BACKENDS == 1
+  // hypothetical backend for windows
+  #ifdef _WIN32
+    #ifndef ENABLE_HYPOTHETICAL_WINDOWS_BACKEND
+      #define ENABLE_HYPOTHETICAL_WINDOWS_BACKEND 1
+    #endif
+  #endif
+  // enable the other backends by default regardless of OS
+  // as long as ENABLE_ALL_BACKENDS is true and the backend
+  // in question hasn't manually been set
+  #ifndef ENABLE_IMAGEMAGICK
+    #define ENABLE_IMAGEMAGICK 1
+  #endif
+  #ifndef ENABLE_SCROT
+    #define ENABLE_SCROT 1
+  #endif
+  #ifndef ENABLE_MAIM
+    #define ENABLE_MAIM 1
+  #endif
+#endif
+
+#include "nougat.sh"

@@ -1,0 +1,49 @@
++ env
+DISPLAY=:99
+HOSTNAME=32462c816afe
+CI=true
+XTERM_SHELL=/bin/sh
+PWD=/
+HOME=/home/testuser
+XTERM_VERSION=XTerm(327)
+TERM=xterm
+SHLVL=1
+WINDOWID=2097165
+LOGNAME=testuser
+XAUTHORITY=/tmp/xvfb-run.C9MJRD/Xauthority
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+XTERM_LOCALE=C
+_=/usr/bin/env
++ disown
++ x11vnc -bg -forever
++ disown
++ set -e
++ cd /opt/nougat/tests
++ mkdir -p /home/testuser/Screenshots
++ openbox
++ ./runner.sh
+1..18
+ok 1 nougat -h
+ok 2 nougat -b imagemagick
+/home/testuser/Screenshots/1970/January/01/00:34:07_full.png
+ok 3 nougat -b imagemagick -f
+ok 4 nougat -b imagemagick -fs
+/tmp/1970-January-01.06:42:49_full.png
+ok 5 nougat -b imagemagick -ft
+ok 6 nougat -b imagemagick -ftc
+ok 7 nougat -b maim
+/home/testuser/Screenshots/1970/January/01/00:50:20_full.png
+ok 8 nougat -b maim -f
+ok 9 nougat -b maim -fs
+/tmp/1970-January-01.04:01:48_full.png
+ok 10 nougat -b maim -ft
+ok 11 nougat -b maim -ftc
+ok 12 nougat -b scrot
+/home/testuser/Screenshots/1970/January/01/08:17:47_full.png
+ok 13 nougat -b scrot -f
+ok 14 nougat -b scrot -fs
+/tmp/1970-January-01.07:31:24_full.png
+ok 15 nougat -b scrot -ft
+ok 16 nougat -b scrot -ftc
+ok 17 nougat -p
+ok 18 nougat -ps

@@ -1,0 +1,9 @@
+scrotbackend(){
+    require scrot
+    
+    scrotopts=''
+
+    [[ "${fullscreen}" == 'false' ]] && scrotopts='-s'
+
+    command scrot ${scrotopts} /tmp/nougat_temp.png
+}

@@ -1,0 +1,11 @@
+#if ENABLE_IMAGEMAGICK == 1
+  #include "imagemagick/imagemagick"
+#endif
+
+#if ENABLE_SCROT == 1
+  #include "scrot/scrot"
+#endif
+
+#if ENABLE_MAIM == 1
+  #include "maim/maim"
+#endif
