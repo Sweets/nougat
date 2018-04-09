@@ -8,7 +8,7 @@ nougat \- A beautiful screenshot wrapper
 .SH SYNOPSIS
 .PP
 \f[I]nougat\f[] [ \f[B]\-h\f[] | \f[B]\-f\f[] | \f[B]\-c\f[] |
-\f[B]\-t\f[] | \f[B]\-s\f[] | \f[B]\-b\f[] \f[I]backend\f[] |
+\f[B]\-t\f[] | \f[B]\-s\f[] | \f[B]\-i\f[] | \f[B]\-b\f[] \f[I]backend\f[] |
 \f[B]\-p\f[] ] [\f[I]DIRECTORY\f[]]
 .SH DESCRIPTION
 .PP
@@ -41,6 +41,14 @@ Copies to clipboard (Requires xclip dependency)
 .P
 .PD
 Places the screenshot in /tmp rather than the set directory.
+.PP
+\f[B]\-i\f[]
+.PD 0
+.P
+.PD
+Outputs the taken image to stdout. This is useful for scripts
+that accept an image as input on stdin. (Implies \-s)
+.PP
 .PP
 \f[B]\-s\f[]
 .PD 0
@@ -102,6 +110,14 @@ subcatagorized by date folders.
 \ \ \ \ This command will take a full screen picture with cursor and
 saves it to ~/pictures as well as clipboard, however it requests
 imagemagisk to be the backend instead of whatever is originally used.
+.PP
+\f[B]nougat \-fi | curl -sF'file=@-' https://0x0.st\f[]
+.PD 0
+.P
+.PD
+\ \ \ \ This takes a fullscreen picture and pipes
+the image to curl where it is uploaded to 0x0.st (requires curl installed).
+.PP
 .SH ENVIRONMENT
 .PP
 \f[B]NOUGAT_CONFIG\f[]
