@@ -9,6 +9,7 @@ saveourship() {
 cat << EOF
 Nougat - screenshot wrapper created to help organize screenshots
  -h - Saves our ship.
+ -i - Output image to stdout. This implies -s (silent).
  -s - Silent. By default, nougat will output the path to the file to STDOUT.
               This is to make it easier to implement into other file uploaders.
  -t - Places screenshot into /tmp
@@ -28,6 +29,7 @@ EOF
 temporary=false
 clean=false
 silent=false
+stdout=false
 fullscreen=false
 copytoclipboard=false
 backend=""
@@ -143,7 +145,7 @@ NOUGAT_LINKING_POLICY="All/\${year}-\${month}-\${day}.\${hour}:\${minute}:\${sec
 EOF
     }
 
-    while getopts 'hstfcpu b:S:' option; do
+    while getopts 'hstfcpui b:S:' option; do
         case $option in
             h)
                 saveourship
@@ -156,6 +158,10 @@ EOF
             t) temp=true;;
             c) copytoclipboard=true;;
             f) fullscreen=true;;
+            i)
+               stdout=true
+               silent=true
+               ;;
         esac
     done
 
@@ -207,6 +213,21 @@ runbackend() {
     [[ ! -f /tmp/nougat_temp.png ]] && exit 0
 }
 
+stdout() {
+  if [[ ! -t 1 ]]; then
+    cat "$1"
+  else
+    cat >&2 <<EOF
+Refusing to output stdout to a terminal.
+  
+Did you mean to pipe me to another script?
+  
+$1
+EOF
+    exit 1
+  fi
+}
+
 organize() {
     read -r fullpath filename linkpath linkname <<< "$(getcanonicals)"
 
@@ -219,6 +240,9 @@ organize() {
         [[ $silent == false ]] && echo "/tmp/$linkname.png"
 
         mv /tmp/nougat_temp.png "/tmp/$linkname.png"
+
+        [[ $stdout == true ]] && stdout "/tmp/$linkname.png"
+
         exit 0
     }
 
@@ -229,6 +253,8 @@ organize() {
     [[ -n $linkpath ]] && ln -s "$fullpath/$filename.png" "$linkpath/$linkname.png"
 
     [[ $silent == false ]] && echo "$fullpath/$filename.png"
+
+    [[ $stdout == true ]] && stdout "$fullpath/$filename.png"
 
     exit 0
 }
