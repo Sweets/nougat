@@ -7,7 +7,7 @@
 nougat \- A beautiful screenshot wrapper
 .SH SYNOPSIS
 .PP
-\f[I]nougat\f[] [ \f[B]\-h\f[] | \f[B]\-f\f[] | \f[B]\-c\f[] |
+\f[I]nougat\f[] [ \f[B]\-h\f[] | \f[B]\-f\f[] | \f[B]\-m\f[] | \f[B]\-c\f[] |
 \f[B]\-t\f[] | \f[B]\-s\f[] | \f[B]\-i\f[] | \f[B]\-b\f[] \f[I]backend\f[] |
 \f[B]\-p\f[] ] [\f[I]DIRECTORY\f[]]
 .SH DESCRIPTION
@@ -29,6 +29,14 @@ Display the help and exit.
 .P
 .PD
 Takes a fullscreen screenshot.
+.PP
+\f[B]\-m\f[]
+.PD 0
+.P
+.PD
+Takes a fullscreen screenshot of the currently focused display.
+
+This requires xdotool and is incompatible with the scrot backend.
 .PP
 \f[B]\-c\f[]
 .PD 0

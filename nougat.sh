@@ -15,9 +15,12 @@ Nougat - screenshot wrapper created to help organize screenshots
  -t - Places screenshot into /tmp
       (useful if you only need a quick screenshot to send to a friend)
  -f - Takes a full screen screenshot (default is select area)
+ -m - Takes a full screen screenshot of the currently focused monitor.
+      \`xdotool\` is required (\`nougat\` fallsback to a regular fullscreen screenshot without it).
+
  -c - Puts the screenshot into your clipboard
  -b - Select backend to use
-              Supported backends are \`maim', \`scrot', and \`imagemagick'.
+              Supported backends are \`maim', \`scrot' (without -m), and \`imagemagick'.
               nougat will detect available backends if -b
               is not specified. nougat prefers maim to scrot and imagemagick.
  -p - Cleans the link directory of Nougat based on the linking policy.
@@ -31,6 +34,7 @@ clean=false
 silent=false
 stdout=false
 fullscreen=false
+focused_monitor=false
 copytoclipboard=false
 backend=""
 
@@ -44,6 +48,8 @@ maimbackend() {
     maimopts=''
 
     [[ $fullscreen == false ]] && maimopts=-s
+    [[ $focused_monitor == true ]] && maimopts=--geometry=$(getcurrentmonitor)
+    [[ $maimopts == "--geometry=" ]] && maimopts=''
     maimopts="$maimopts --hidecursor"
 
     maim $maimopts /tmp/nougat_temp.png
@@ -64,12 +70,15 @@ imagemagickbackend() {
 
     importopts=''
 
-    [[ $fullscreen == false ]] && {
+    [[ $fullscreen == false && $focused_monitor == false ]] && {
         require slop
 
         slop=$(slop -qof '%wx%h+%x+%y')
 
         [[ -n $slop ]] && importopts="-crop $slop"
+    } || {
+      [[ $focused_monitor == true ]] && importopts="-crop $(getcurrentmonitor)"
+      [[ $importopts == "-crop " ]] && importopts=''
     }
 
     import -window root $importopts /tmp/nougat_temp.png
@@ -104,6 +113,54 @@ getconfigdir() {
     [[ ! -d $CONFIG_DIR ]] && CONFIG_DIR="$HOME/.config"
 
     echo "$CONFIG_DIR"
+}
+
+# Print's the current screens geometry
+# Modified from:
+# https://superuser.com/a/1238384
+getcurrentmonitor() {
+  # We require xdotool to get the mouse co-ordinates (used to tell which monitor we're on)
+  # Without xdotool we silently fallback to a regular fullscreen screenshot
+  testfor xdotool || return 1
+  testfor xrandr  || return 1
+
+  xrandr="$(xrandr --nograb)"
+  [[ -z "$xrandr" ]] && return 1
+
+  OFFSET_RE="\+([-0-9]+)\+([-0-9]+)"
+
+  # Get the window position
+  eval "$(xdotool getmouselocation --shell)"
+
+  # Loop through each screen and compare the offset with the window
+  # coordinates.
+  monitor_index=0
+  while read -r name width height xoff yoff
+  do
+      if [[ "${X}" -ge "$xoff" && \
+            "${Y}" -ge "$yoff" && \
+            "${X}" -lt "$(($xoff+$width))" && \
+            "${Y}" -lt "$(($yoff+$height))" ]]; then
+          monitor=$name
+          break
+      fi
+      ((monitor_index++))
+  done < <(grep -w connected <<< "$xrandr" |
+      sed -r "s/^([^ ]*).*\b([-0-9]+)x([-0-9]+)$OFFSET_RE.*$/\1 \2 \3 \4 \5/" |
+      sort -nk4,5)
+
+  # If we found a monitor, get its geometry.
+  if [[ "$monitor" ]]
+  then
+      geometry="$(grep -E "^$monitor\s" <<< "$xrandr")"
+      geometry="${geometry/$monitor/}"
+      geometry="${geometry/connected/}"
+      geometry="${geometry/primary/}"
+      awk '{print $1}' <<< "$geometry"
+      return $?
+  fi
+
+  return 1
 }
 
 getcanonicals() {
@@ -145,7 +202,7 @@ NOUGAT_LINKING_POLICY="All/\${year}-\${month}-\${day}.\${hour}:\${minute}:\${sec
 EOF
     }
 
-    while getopts 'hstfcpui b:S:' option; do
+    while getopts 'hstfmcpui b:S:' option; do
         case $option in
             h)
                 saveourship
@@ -158,6 +215,10 @@ EOF
             t) temp=true;;
             c) copytoclipboard=true;;
             f) fullscreen=true;;
+            m)
+               fullscreen=true
+               focused_monitor=true
+              ;;
             i)
                stdout=true
                silent=true
@@ -219,9 +280,9 @@ stdout() {
   else
     cat >&2 <<EOF
 Refusing to output stdout to a terminal.
-  
+
 Did you mean to pipe me to another script?
-  
+
 $1
 EOF
     exit 1
@@ -284,11 +345,11 @@ init "$@"
 [[ $clean == true ]] && {
     clean
     x="$?"
-  
+
     [[ $# -eq 1 ]] && {
         [[ $1 == -p || $1 == -ps || $1 == -sp ]] && exit "$x"
     }
-  
+
     [[ $# -eq 2 ]] && {
         [[ $1 == -p || $1 == -s ]] && {
             [[ $2 == -p || $2 == -s ]] && exit "$x"
