@@ -122,6 +122,7 @@ getcurrentmonitor() {
   # We require xdotool to get the mouse co-ordinates (used to tell which monitor we're on)
   # Without xdotool we silently fallback to a regular fullscreen screenshot
   testfor xdotool || return 1
+  testfor xrandr  || return 1
 
   xrandr="$(xrandr --nograb)"
   [[ -z "$xrandr" ]] && return 1
@@ -148,7 +149,7 @@ getcurrentmonitor() {
       sed -r "s/^([^ ]*).*\b([-0-9]+)x([-0-9]+)$OFFSET_RE.*$/\1 \2 \3 \4 \5/" |
       sort -nk4,5)
 
-  # If we found a monitor, echo it out, otherwise print an error.
+  # If we found a monitor, get its geometry.
   if [[ "$monitor" ]]
   then
       geometry="$(grep -E "^$monitor\s" <<< "$xrandr")"
@@ -156,10 +157,10 @@ getcurrentmonitor() {
       geometry="${geometry/connected/}"
       geometry="${geometry/primary/}"
       awk '{print $1}' <<< "$geometry"
-      return 0
-  else
-      return 1
+      return $?
   fi
+
+  return 1
 }
 
 getcanonicals() {
