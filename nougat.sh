@@ -52,6 +52,8 @@ maimbackend() {
     [[ $maimopts == "--geometry=" ]] && maimopts=''
     maimopts="$maimopts --hidecursor"
 
+    maimopts+=" $MAIM_BACKEND_OPTIONS"
+
     maim $maimopts /tmp/nougat_temp.png
 }
 
@@ -61,6 +63,8 @@ scrotbackend() {
     scrotopts=''
 
     [[ $fullscreen == false ]] && scrotopts=-s
+
+    scrotopts+=" $SCROT_BACKEND_OPTIONS"
 
     scrot $scrotopts /tmp/nougat_temp.png
 }
@@ -80,6 +84,8 @@ imagemagickbackend() {
       [[ $focused_monitor == true ]] && importopts="-crop $(getcurrentmonitor)"
       [[ $importopts == "-crop " ]] && importopts=''
     }
+
+    importopts+=" $IMAGEMAGICK_BACKEND_OPTIONS"
 
     import -window root $importopts /tmp/nougat_temp.png
 }
