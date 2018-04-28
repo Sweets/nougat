@@ -52,7 +52,7 @@ maimbackend() {
     [[ $maimopts == "--geometry=" ]] && maimopts=''
     maimopts="$maimopts --hidecursor"
 
-    maim $maimopts /tmp/nougat_temp.png
+    maim $maimopts $MAIM_BACKEND_OPTIONS /tmp/nougat_temp.png
 }
 
 scrotbackend() {
@@ -62,7 +62,7 @@ scrotbackend() {
 
     [[ $fullscreen == false ]] && scrotopts=-s
 
-    scrot $scrotopts /tmp/nougat_temp.png
+    scrot $scrotopts $SCROT_BACKEND_OPTIONS /tmp/nougat_temp.png
 }
 
 imagemagickbackend() {
@@ -81,7 +81,7 @@ imagemagickbackend() {
       [[ $importopts == "-crop " ]] && importopts=''
     }
 
-    import -window root $importopts /tmp/nougat_temp.png
+    import -window root $importopts $IMAGEMAGICK_BACKEND_OPTIONS /tmp/nougat_temp.png
 }
 
 ### END BACKENDS
@@ -199,6 +199,9 @@ init() {
         cat >> "$CONFIG_DIR/nougat" << EOF
 NOUGAT_ORGANIZATION_POLICY="\${year}/\${month}/\${day}/\${hour}:\${minute}:\${second}\${suffix}"
 NOUGAT_LINKING_POLICY="All/\${year}-\${month}-\${day}.\${hour}:\${minute}:\${second}\${suffix}"
+MAIM_BACKEND_OPTIONS=""
+SCROT_BACKEND_OPTIONS=""
+IMAGEMAGICK_BACKEND_OPTIONS=""
 EOF
     }
 
