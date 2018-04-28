@@ -205,6 +205,9 @@ init() {
         cat >> "$CONFIG_DIR/nougat" << EOF
 NOUGAT_ORGANIZATION_POLICY="\${year}/\${month}/\${day}/\${hour}:\${minute}:\${second}\${suffix}"
 NOUGAT_LINKING_POLICY="All/\${year}-\${month}-\${day}.\${hour}:\${minute}:\${second}\${suffix}"
+MAIM_BACKEND_OPTIONS=""
+SCROT_BACKEND_OPTIONS=""
+IMAGEMAGICK_BACKEND_OPTIONS=""
 EOF
     }
 
