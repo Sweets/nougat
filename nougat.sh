@@ -108,9 +108,7 @@ require() {
 }
 
 getconfigdir() {
-    CONFIG_DIR="$XDG_CONFIG_HOME"
-
-    [[ ! -d $CONFIG_DIR ]] && CONFIG_DIR="$HOME/.config"
+    CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}"
 
     echo "$CONFIG_DIR"
 }
@@ -324,7 +322,7 @@ organize() {
 }
 
 clean() {
-    . "$HOME/.config/nougat"
+    . "$(getconfigdir)/nougat"
 
     linkdir=$(dirname "$NOUGAT_SCREENSHOT_DIRECTORY/$NOUGAT_LINKING_POLICY")
     [[ $silent == false ]] && echo "$linkdir"
