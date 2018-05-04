@@ -272,7 +272,7 @@ runbackend() {
             ;;
     esac
 
-    [[ ! -f /tmp/nougat_temp.png ]] && exit 0
+    [[ ! -f /tmp/nougat_temp.png ]] && exit 1
 }
 
 stdout() {
