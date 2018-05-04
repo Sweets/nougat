@@ -143,7 +143,7 @@ getcurrentmonitor() {
           break
       fi
       ((monitor_index++))
-  done < <(grep -w connected <<< "$xrandr" |
+  done <<< $(grep -w connected <<< "$xrandr" |
       sed -r "s/^([^ ]*).*\b([-0-9]+)x([-0-9]+)$OFFSET_RE.*$/\1 \2 \3 \4 \5/" |
       sort -nk4,5)
 
