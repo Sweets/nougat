@@ -36,7 +36,9 @@ stdout=false
 fullscreen=false
 focused_monitor=false
 copytoclipboard=false
+
 backend=""
+backend_options=""
 
 backends=('maim' 'scrot' 'imagemagick')
 
@@ -52,7 +54,7 @@ maimbackend() {
     [[ $maimopts == "--geometry=" ]] && maimopts=''
     maimopts="$maimopts --hidecursor"
 
-    maim $maimopts $MAIM_BACKEND_OPTIONS /tmp/nougat_temp.png
+    maim $maimopts $backend_options /tmp/nougat_temp.png
 }
 
 scrotbackend() {
@@ -62,7 +64,7 @@ scrotbackend() {
 
     [[ $fullscreen == false ]] && scrotopts=-s
 
-    scrot $scrotopts $SCROT_BACKEND_OPTIONS /tmp/nougat_temp.png
+    scrot $scrotopts $backend_options /tmp/nougat_temp.png
 }
 
 imagemagickbackend() {
@@ -81,7 +83,7 @@ imagemagickbackend() {
       [[ $importopts == "-crop " ]] && importopts=''
     }
 
-    import -window root $importopts $IMAGEMAGICK_BACKEND_OPTIONS /tmp/nougat_temp.png
+    import -window root $importopts $backend_options /tmp/nougat_temp.png
 }
 
 ### END BACKENDS
@@ -262,10 +264,22 @@ setbackend() {
 }
 
 runbackend() {
+
+    . "$(getconfigdir)/nougat"
+
     case $backend in
-        maim) maimbackend;;
-        scrot) scrotbackend;;
-        imagemagick) imagemagickbackend;;
+        maim)
+            backend_options="$MAIM_BACKEND_OPTIONS"
+            maimbackend
+            ;;
+        scrot)
+            backend_options="$SCROT_BACKEND_OPTIONS"
+            scrotbackend
+            ;;
+        imagemagick)
+            backend_options="$IMAGEMAGICK_BACKEND_OPTIONS"
+            imagemagickbackend
+            ;;
         *)
             echo 'No supported backend found'
             exit 1
