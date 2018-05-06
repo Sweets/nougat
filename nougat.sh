@@ -119,48 +119,48 @@ getconfigdir() {
 # Modified from:
 # https://superuser.com/a/1238384
 getcurrentmonitor() {
-  # We require xdotool to get the mouse co-ordinates (used to tell which monitor we're on)
-  # Without xdotool we silently fallback to a regular fullscreen screenshot
-  testfor xdotool || return 1
-  testfor xrandr  || return 1
+    # We require xdotool to get the mouse co-ordinates (used to tell which monitor we're on)
+    # Without xdotool we silently fallback to a regular fullscreen screenshot
+    testfor xdotool || return 1
+    testfor xrandr  || return 1
 
-  xrandr="$(xrandr --nograb)"
-  [[ -z "$xrandr" ]] && return 1
+    xrandr="$(xrandr --nograb)"
+    [[ -z "$xrandr" ]] && return 1
 
-  OFFSET_RE="\+([-0-9]+)\+([-0-9]+)"
+    OFFSET_RE="\+([-0-9]+)\+([-0-9]+)"
 
-  # Get the window position
-  eval "$(xdotool getmouselocation --shell)"
+    # Get the window position
+    eval "$(xdotool getmouselocation --shell)"
 
-  # Loop through each screen and compare the offset with the window
-  # coordinates.
-  monitor_index=0
-  while read -r name width height xoff yoff
-  do
-      if [[ "${X}" -ge "$xoff" && \
+    # Loop through each screen and compare the offset with the window
+    # coordinates.
+    monitor_index=0
+    while read -r name width height xoff yoff
+    do
+        if [[ "${X}" -ge "$xoff" && \
             "${Y}" -ge "$yoff" && \
             "${X}" -lt "$(($xoff+$width))" && \
             "${Y}" -lt "$(($yoff+$height))" ]]; then
-          monitor=$name
-          break
-      fi
-      ((monitor_index++))
-  done <<< $(grep -w connected <<< "$xrandr" |
-      sed -r "s/^([^ ]*).*\b([-0-9]+)x([-0-9]+)$OFFSET_RE.*$/\1 \2 \3 \4 \5/" |
-      sort -nk4,5)
+            monitor=$name
+            break
+        fi
+        ((monitor_index++))
+    done <<< $(grep -w connected <<< "$xrandr" |
+        sed -r "s/^([^ ]*).*\b([-0-9]+)x([-0-9]+)$OFFSET_RE.*$/\1 \2 \3 \4 \5/" |
+        sort -nk4,5)
 
-  # If we found a monitor, get its geometry.
-  if [[ "$monitor" ]]
-  then
-      geometry="$(grep -E "^$monitor\s" <<< "$xrandr")"
-      geometry="${geometry/$monitor/}"
-      geometry="${geometry/connected/}"
-      geometry="${geometry/primary/}"
-      awk '{print $1}' <<< "$geometry"
-      return $?
-  fi
+    # If we found a monitor, get its geometry.
+    if [[ "$monitor" ]]
+    then
+        geometry="$(grep -E "^$monitor\s" <<< "$xrandr")"
+        geometry="${geometry/$monitor/}"
+        geometry="${geometry/connected/}"
+        geometry="${geometry/primary/}"
+        awk '{print $1}' <<< "$geometry"
+        return $?
+    fi
 
-  return 1
+    return 1
 }
 
 getcanonicals() {
