@@ -57,14 +57,19 @@ save(){
     read -r fullpath filename linkpath linkname \
         <<< `getcanonicalpaths "${1}" "${extension}" "${filetype}"`
 
+    [[ "${linkpath}" == "." ]] && linkpath=""
+
     mkdir -p "${fullpath}"
-    [[ -n "${linkpath}" ]] && mkdir -p "${linkpath}"
-
     cp "${2}" "${fullpath}/${filename}"
-    [[ -n "${linkpath}" ]] && \
-        ln -s "${fullpath}/${filename}" "${linkpath}/${linkname}"
 
-    echo "${fullpath}/${filename} ${linkpath}/${linkname}"
+    output="${fullpath}/${filename}"
+
+    [[ -n "${linkpath}" ]] && \
+        mkdir -p "${linkpath}" && \
+        ln -s "${fullpath}/${filename}" "${linkpath}/${linkname}" && \
+        output="${output} ${linkpath}/${linkname}"
+
+    echo "${output}"
 }
 
 copy(){

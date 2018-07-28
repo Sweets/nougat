@@ -12,7 +12,9 @@ post(){
         output=`temporary "" "${1}"`
     else
         read -r filepath linkpath <<< `save "" "${1}"`
-        output="${filepath}\n${linkpath}"
+        output="${filepath}"
+
+        [[ -n "${linkpath}" ]] && output="${output}\n${linkpath}"
     fi
 
     if [[ "${silent}" == "false" ]]
