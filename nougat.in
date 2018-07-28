@@ -1,0 +1,4 @@
+#define ENABLE_FFMPEG 1
+#define ENABLE_IMAGEMAGICK 1
+
+#include "src/nougat.sh"

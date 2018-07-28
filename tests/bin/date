@@ -1,6 +1,0 @@
-#!/bin/sh
-# Date Wrapper - We need re-produceable dates to make testing easier
-# This wrapper is a clever hack that does just that. It uses the value
-# of the "$DATE" environment variable as the date.
-
-command -p date --date="$DATE" "$@"
