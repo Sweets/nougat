@@ -19,7 +19,7 @@ record_region(){
             geometry=`select_default`
             ;;
     esac
-    sleep 0.5
+    sleep 0.1
 
     [[ -z "${geometry}" ]] && exit 0
 
