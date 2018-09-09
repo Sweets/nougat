@@ -34,7 +34,7 @@ EOF
 SELECTION_METHOD="default"
 SCREENSHOT_DIRECTORY="\$HOME/Pictures/Screenshots"
 SCREENCAST_DIRECTORY="\$HOME/Videos/Screencasts"
-DEFAULT_POLICY='\${year}/\${month}/\${day}/\${hour}:\${minute}:\${second}'
+ORGANIZATION_POLICY='\${year}/\${month}/\${day}/\${hour}:\${minute}:\${second}'
 EOF
 
     fi
