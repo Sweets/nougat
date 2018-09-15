@@ -52,8 +52,14 @@ capture_focused_monitor(){
 }
 
 #else
-capture_region(){}
-capture_fullscreen(){}
-capture_focused_monitor(){}
+capture_region(){
+    return 0
+}
+capture_fullscreen(){
+    return 0
+}
+capture_focused_monitor(){
+    return 0
+}
 #endif
 

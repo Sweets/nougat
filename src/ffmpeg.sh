@@ -57,8 +57,14 @@ record_focused_monitor(){
     post ${path}
 }
 #else
-record_region(){}
-record_fullscreen(){}
-record_focused_monitor(){}
+record_region(){
+    return 0
+}
+record_fullscreen(){
+    return 0
+}
+record_focused_monitor(){
+    return 0
+}
 #endif
 
