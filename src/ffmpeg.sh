@@ -24,6 +24,9 @@ record_region(){
 
     read -r width height x y <<< ${geometry}
 
+    [[ "$(($width % 2))" == "1" ]] && width="$(($width - 1))"
+    [[ "$(($height % 2))" == "1" ]] && height="$(($height - 1))"
+
     ffmpeg -f x11grab -s ${width}x${height} -i :0.0+${x},${y} \
         -vcodec libx264 -pix_fmt yuv420p -preset veryfast \
         -tune zerolatency -vsync 0 -y -loglevel 0 ${path}
