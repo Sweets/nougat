@@ -21,7 +21,7 @@ record_region(){
     esac
     sleep 0.1
 
-    [[ -z "${geometry}" ]] && exit 0
+    [[ "${geometry}" == "0 0 0 0" ]] && exit 0
 
     read -r width height x y <<< ${geometry}
 
