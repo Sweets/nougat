@@ -1,17 +1,17 @@
 
 select_default(){
     require slop
-    slop -of '%w %h %x %y'
+    slop -f '%w %h %x %y' 2>/dev/null
 }
 
 select_dark(){
     require slop
-    slop -c 0,0,0,0.35 -o -l -f '%w %h %x %y'
+    slop -c 0,0,0,0.35 -l -f '%w %h %x %y' 2>/dev/null
 }
 
 select_light(){
     require slop
-    slop -c 1,1,1,0.25 -o -l -f '%w %h %x %y'
+    slop -c 1,1,1,0.25 -l -f '%w %h %x %y' 2>/dev/null
 }
 
 select_root_window(){
