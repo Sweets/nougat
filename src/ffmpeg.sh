@@ -26,7 +26,7 @@ record_region(){
     read -r width height x y <<< ${geometry}
 
     ffmpeg -f x11grab -s ${width}x${height} -i :0.0+${x},${y} \
-        -vcodec libx264 -preset veryfast \
+        -vcodec libx264 -pix_fmt yuv420p -preset veryfast \
         -tune zerolatency -vsync 0 -y -loglevel 0 ${path}
 
     post ${path}
@@ -38,7 +38,7 @@ record_fullscreen(){
     read -r width height x y <<< ${geometry}
 
     ffmpeg -f x11grab -s ${width}x${height} -i :0.0+0,0 \
-        -vcodec libx264 -preset veryfast \
+        -vcodec libx264 -pix_fmt yuv420p -preset veryfast \
         -tune zerolatency -vsync 0 -y -loglevel 0 ${path}
 
     post ${path}
@@ -51,7 +51,7 @@ record_focused_monitor(){
     read -r width height x y <<< ${geometry}
 
     ffmpeg -f x11grab -s ${width}x${height} -i :0.0+${x},${y} \
-        -vcodec libx264 -preset veryfast \
+        -vcodec libx264 -pix_fmt yuv420p -preset veryfast \
         -tune zerolatency -vsync 0 -y -loglevel 0 ${path}
 
     post ${path}
